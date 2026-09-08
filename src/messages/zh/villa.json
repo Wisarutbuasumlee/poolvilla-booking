@@ -20,5 +20,25 @@
     "fri": "周五",
     "sat": "周六",
     "holiday": "公共假日"
-  }
+  },
+  "hasSlide": "滑梯",
+  "placeholderPhotos": "占位图，非实景",
+  "guestsUnit": "人",
+  "perPersonPerNight": "每人每晚",
+  "refundedOnCheckout": "退房时退还",
+  "parkingValue": "院内 {house} 位，车库 {garage} 位",
+  "poolSummary": "私人泳池，{system}，长 {length} 米宽 {width} 米深 {depth} 米",
+  "saltwater": "盐水",
+  "chlorine": "氯",
+  "slideHeight": "滑梯高 {m} 米",
+  "kidsPool": "儿童池",
+  "bedroomNo": "卧室 {n}",
+  "bedSpec": "{size} 英尺床 {count} 张",
+  "sleeps": "可住 {n} 人",
+  "ensuite": "独立卫浴",
+  "extraMattress": "另有加床 {n} 人",
+  "minNights": "最少入住 {n} 晚",
+  "yourAgent": "此价格来自",
+  "full": "已订",
+  "additionalNotes": "其他说明"
 }

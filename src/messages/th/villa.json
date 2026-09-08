@@ -20,5 +20,25 @@
     "fri": "ศุกร์",
     "sat": "เสาร์",
     "holiday": "วันหยุดนักขัตฤกษ์"
-  }
+  },
+  "hasSlide": "มีสไลเดอร์",
+  "placeholderPhotos": "รูปตัวอย่าง ยังไม่ใช่ภาพจริง",
+  "guestsUnit": "คน",
+  "perPersonPerNight": "ต่อคนต่อคืน",
+  "refundedOnCheckout": "คืนวันเช็คเอาท์",
+  "parkingValue": "ในบ้าน {house} คัน โรงจอด {garage} คัน",
+  "poolSummary": "สระส่วนตัว ระบบ{system} กว้าง {width} ม. ยาว {length} ม. ลึก {depth} ม.",
+  "saltwater": "น้ำเกลือ",
+  "chlorine": "คลอรีน",
+  "slideHeight": "สไลเดอร์สูง {m} ม.",
+  "kidsPool": "มีสระเด็ก",
+  "bedroomNo": "ห้องนอน {n}",
+  "bedSpec": "เตียง {size} ฟุต {count} เตียง",
+  "sleeps": "นอนได้ {n} คน",
+  "ensuite": "ห้องน้ำในตัว",
+  "extraMattress": "มีที่นอนเสริมอีก {n} คน",
+  "minNights": "เข้าพักขั้นต่ำ {n} คืน",
+  "yourAgent": "ราคานี้จากนายหน้า",
+  "full": "เต็ม",
+  "additionalNotes": "รายละเอียดเพิ่มเติม"
 }

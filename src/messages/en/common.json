@@ -39,5 +39,10 @@
     "loading": "Loading",
     "empty": "Nothing here yet",
     "error": "Something went wrong"
+  },
+  "villaCard": {
+    "slide": "Pool slide",
+    "placeholder": "Placeholder",
+    "forNights": "for {n} nights"
   }
 }

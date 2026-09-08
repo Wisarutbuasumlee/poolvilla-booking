@@ -39,5 +39,10 @@
     "loading": "加载中",
     "empty": "暂无内容",
     "error": "出错了"
+  },
+  "villaCard": {
+    "slide": "滑梯",
+    "placeholder": "占位图",
+    "forNights": "共 {n} 晚"
   }
 }

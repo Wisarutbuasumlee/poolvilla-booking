@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 import { ThemeProvider } from '@/components/common/theme-provider';
+import { ContactBar } from '@/components/public/contact-bar';
+import { SiteHeader } from '@/components/public/site-header';
 import { fontClassNames } from '@/i18n/fonts';
 import { routing, type Locale } from '@/i18n/routing';
 
@@ -59,7 +61,13 @@ export default async function PublicRootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            <SiteHeader />
+            {children}
+            {/* Reachable from every page. Most Thai guests decide on LINE,
+                and a contact button that scrolls away is a lost booking. */}
+            <ContactBar />
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

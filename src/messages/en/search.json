@@ -1,0 +1,12 @@
+{
+  "amenity": "Amenities",
+  "sortBy": "Sort by",
+  "found": "{total} villas",
+  "foundForDates": "{total} villas free on those dates",
+  "empty": {
+    "title": "Nothing matches",
+    "body": "Try fewer filters, or a different area.",
+    "withDates": "Those dates may be taken. Try shifting them or removing a filter.",
+    "clear": "Clear filters"
+  }
+}

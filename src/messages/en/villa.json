@@ -20,5 +20,25 @@
     "fri": "Friday",
     "sat": "Saturday",
     "holiday": "Public holiday"
-  }
+  },
+  "hasSlide": "Pool slide",
+  "placeholderPhotos": "Placeholder photos, not the real house",
+  "guestsUnit": "guests",
+  "perPersonPerNight": "per person per night",
+  "refundedOnCheckout": "refunded at check-out",
+  "parkingValue": "{house} at the house, {garage} in the garage",
+  "poolSummary": "Private pool, {system}, {width} m by {length} m, {depth} m deep",
+  "saltwater": "saltwater",
+  "chlorine": "chlorine",
+  "slideHeight": "{m} m slide",
+  "kidsPool": "Kids pool",
+  "bedroomNo": "Bedroom {n}",
+  "bedSpec": "{count} x {size} ft bed",
+  "sleeps": "sleeps {n}",
+  "ensuite": "En-suite",
+  "extraMattress": "Extra mattresses for {n} more",
+  "minNights": "Minimum stay {n} nights",
+  "yourAgent": "These rates are from",
+  "full": "Taken",
+  "additionalNotes": "Good to know"
 }
