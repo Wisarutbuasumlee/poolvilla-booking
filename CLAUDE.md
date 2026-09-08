@@ -172,7 +172,7 @@ schema อยู่ที่ `src/lib/db/models/` รายละเอียด
 ## 13. Roadmap
 
 - [x] **Phase 0** ฐานราก โครง route สองราก design token docker docs
-- [ ] **Phase 1** Mongoose models, เอนจินราคา + unit tests, availability service, seed
+- [x] **Phase 1** Mongoose models, เอนจินราคา + unit tests, availability service, seed
 - [ ] **Phase 2** proxy auth, Auth.js + RBAC, layout หลังบ้าน, CRUD บ้าน, image manager
 - [ ] **Phase 3** หน้าแรก หน้าค้นหา หน้ารายละเอียดบ้าน
 - [ ] **Phase 4** booking flow, สลิป, แจ้งเตือน, booking lookup
