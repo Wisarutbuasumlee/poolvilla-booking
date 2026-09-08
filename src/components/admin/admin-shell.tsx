@@ -15,6 +15,7 @@ import {
   Tags,
   Users,
   UsersRound,
+  Wallet,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
@@ -48,8 +49,13 @@ const ALL: readonly Role[] = ['superadmin', 'staff', 'agent'];
 const OFFICE: readonly Role[] = ['superadmin', 'staff'];
 const OWNER: readonly Role[] = ['superadmin'];
 
+const AGENT_ONLY: readonly Role[] = ['agent'];
+
 const NAV: NavItem[] = [
   { href: '/admin', key: 'dashboard', Icon: LayoutDashboard, roles: ALL },
+  // The agent's own view of themselves. Staff have richer screens and do not
+  // need a portal that shows one agent at a time.
+  { href: '/admin/portal', key: 'portal', Icon: Wallet, roles: AGENT_ONLY },
   { href: '/admin/villas', key: 'villas', Icon: Building2, roles: ALL },
   { href: '/admin/bookings', key: 'bookings', Icon: ClipboardList, roles: ALL },
   { href: '/admin/calendar', key: 'calendar', Icon: CalendarDays, roles: ALL },

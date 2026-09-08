@@ -176,7 +176,7 @@ schema อยู่ที่ `src/lib/db/models/` รายละเอียด
 - [x] **Phase 2** proxy auth, Auth.js + RBAC, layout หลังบ้าน, CRUD บ้าน, image manager
 - [x] **Phase 3** หน้าแรก หน้าค้นหา หน้ารายละเอียดบ้าน
 - [x] **Phase 4** booking flow, สลิป, แจ้งเตือน, booking lookup
-- [ ] **Phase 5** ระบบนายหน้า ref link พอร์ทัล ค่าคอม
+- [x] **Phase 5** ระบบนายหน้า ref link พอร์ทัล ค่าคอม
 - [ ] **Phase 6** dashboard รายงาน ปฏิทินรวม วันหยุด โปรโมชั่น
 - [ ] **Phase 7** i18n ครบ dark mode SEO a11y responsive audit
 - [ ] **Phase 8** E2E, hardening, Dockerfile production, deployment guide

@@ -41,6 +41,8 @@ import { SEED_AGENTS, SEED_VILLAS } from './villas';
 const B = baht;
 const ADMIN_EMAIL = 'admin@poolvilla.local';
 const ADMIN_PASSWORD = 'poolvilla-dev-2026';
+const AGENT_EMAIL = 'agent123@poolvilla.local';
+const AGENT_PASSWORD = 'poolvilla-agent-2026';
 
 function log(step: string, detail: string) {
   console.log(`  ${step.padEnd(14)} ${detail}`);
@@ -193,6 +195,24 @@ async function main() {
   await VillaAgentModel.insertMany(links);
   log('agents', `${agentDocs.length} with ${links.length} villa links at different markups`);
 
+  // A login for the first agent, so the portal can be exercised. The other two
+  // stay without one: an agent who only ever sends a referral link does not
+  // need an account, and seeding accounts nobody uses would misrepresent how
+  // the system is meant to work.
+  const firstAgent = agentDocs[0]!;
+  await UserModel.create({
+    email: AGENT_EMAIL,
+    passwordHash: await hash(AGENT_PASSWORD),
+    name: firstAgent.name,
+    role: 'agent',
+    agentId: firstAgent._id,
+  });
+  await AgentModel.updateOne(
+    { _id: firstAgent._id },
+    { $set: { userId: (await UserModel.findOne({ email: AGENT_EMAIL }).lean())!._id } },
+  );
+  log('agent login', `${AGENT_EMAIL} for agent ${firstAgent.agentCode}`);
+
   // --- a festival window on the busiest villa ------------------------------
   const flagship = villaDocs[0]!;
   const songkranStart = asDateKey(`${thisYear + 1}-04-12`);
@@ -238,9 +258,9 @@ async function main() {
   await ReviewModel.insertMany(reviews);
   log('reviews', `${reviews.length}, all marked as staff-entered`);
 
-  console.log('\n  Admin sign-in');
-  console.log(`    email     ${ADMIN_EMAIL}`);
-  console.log(`    password  ${ADMIN_PASSWORD}`);
+  console.log('\n  Sign-in');
+  console.log(`    admin      ${ADMIN_EMAIL} / ${ADMIN_PASSWORD}`);
+  console.log(`    agent 123  ${AGENT_EMAIL} / ${AGENT_PASSWORD}`);
   console.log('\n  Still to enter by hand: lunar-calendar holidays');
   for (const name of LUNAR_HOLIDAYS_TO_ENTER) console.log(`    - ${name}`);
   console.log(

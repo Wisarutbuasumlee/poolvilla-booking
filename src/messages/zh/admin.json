@@ -11,7 +11,8 @@
     "reports": "报表",
     "settings": "设置",
     "users": "用户",
-    "audit": "操作日志"
+    "audit": "操作日志",
+    "portal": "我的门户"
   },
   "login": {
     "title": "后台登录",
@@ -111,5 +112,49 @@
     "newTitle": "新增别墅",
     "backToList": "返回别墅列表",
     "fixErrors": "部分字段有误，已切换到第一个出错的标签页。"
+  },
+  "agents": {
+    "title": "代理管理",
+    "count": "共 {n} 位",
+    "agentCode": "编号",
+    "villas": "负责别墅",
+    "bookings": "预订",
+    "revenue": "销售额",
+    "markupEarned": "加价收入",
+    "commission": "佣金",
+    "status": {
+      "active": "启用",
+      "suspended": "已停用"
+    },
+    "empty": {
+      "title": "暂无代理",
+      "body": "新增代理并分配别墅，即可开始使用推荐链接。"
+    },
+    "backToList": "返回代理列表",
+    "referralLink": "推荐链接",
+    "referralHint": "打开此链接的访客在 30 天内看到该代理的价格，其预订也会记在该代理名下。",
+    "copyLink": "复制链接",
+    "copied": "已复制",
+    "qr": "二维码",
+    "villasAndPrices": "负责别墅与价格（{n}）",
+    "noVillas": {
+      "title": "尚未分配别墅",
+      "body": "请先分配别墅，再设置加价。"
+    },
+    "canBlockDates": "可锁定日期",
+    "villaMissingRates": "该别墅尚无基础价格",
+    "saveMarkup": "保存价格",
+    "saving": "保存中",
+    "saved": "已保存",
+    "saveFailed": "保存失败"
+  },
+  "portal": {
+    "yourPrices": "我的价格",
+    "yourBookings": "我的预订",
+    "askOffice": "请联系办公室分配别墅。",
+    "noBookings": {
+      "title": "暂无预订",
+      "body": "把推荐链接发给客人，通过链接产生的预订会显示在这里。"
+    }
   }
 }

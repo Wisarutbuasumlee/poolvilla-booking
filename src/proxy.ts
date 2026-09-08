@@ -51,6 +51,9 @@ const REF_MAX_AGE = 60 * 60 * 24 * 30;
 const LOCALE_SEGMENT = locales.join('|');
 const ADMIN_PATH = new RegExp(`^/(?:(?:${LOCALE_SEGMENT})/)?admin(?:/|$)`);
 
+/** An agent's own page, /th/a/123, which acts as a referral link. */
+const AGENT_PATH = new RegExp(`^/(?:(?:${LOCALE_SEGMENT})/)?a/([A-Za-z0-9_-]{2,16})(?:/|$)`);
+
 /** The sign-in page lives inside the admin tree but outside its guard. */
 const LOGIN_PATH = new RegExp(`^/(?:(?:${LOCALE_SEGMENT})/)?login/?$`);
 
@@ -121,7 +124,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   // A redirect terminates the pass. Attaching a rewrite to a response that
   // already carries a Location header silently drops the rewrite.
   if (intlResponse.headers.has('location')) {
-    return withRefCookie(intlResponse, searchParams);
+    return withRefCookie(intlResponse, searchParams, pathname);
   }
 
   // localePrefix is 'always', so once intl has passed the request through, the
@@ -151,7 +154,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
       if (!token) {
         const login = new URL(`/${locale}/login`, request.url);
         login.searchParams.set('callbackUrl', pathname + request.nextUrl.search);
-        return withRefCookie(NextResponse.redirect(login), searchParams);
+        return withRefCookie(NextResponse.redirect(login), searchParams, pathname);
       }
     }
   }
@@ -169,11 +172,11 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     });
     carryOver(intlResponse, rewritten);
     rewritten.headers.set('x-pv-surface', 'admin');
-    return withRefCookie(rewritten, searchParams);
+    return withRefCookie(rewritten, searchParams, pathname);
   }
 
   intlResponse.headers.set('x-pv-surface', 'public');
-  return withRefCookie(intlResponse, searchParams);
+  return withRefCookie(intlResponse, searchParams, pathname);
 }
 
 /** Moves next-intl's cookies and routing headers onto the rewritten response. */
@@ -197,8 +200,17 @@ function carryOver(from: NextResponse, to: NextResponse): void {
  * The code is only shape-checked here. Whether that agent exists and is active
  * is decided by the pricing layer, which can reach the database.
  */
-function withRefCookie(response: NextResponse, searchParams: URLSearchParams): NextResponse {
-  const ref = searchParams.get('ref');
+function withRefCookie(
+  response: NextResponse,
+  searchParams: URLSearchParams,
+  pathname = '',
+): NextResponse {
+  // An agent's own page IS a referral. /a/123 has to set the cookie exactly
+  // as ?ref=123 does, or an agent who sends their shop window instead of a
+  // villa link loses the booking to the base price.
+  const fromPath = AGENT_PATH.exec(pathname)?.[1] ?? null;
+  const ref = fromPath ?? searchParams.get('ref');
+
   if (ref && AGENT_CODE.test(ref)) {
     response.cookies.set(REF_COOKIE, ref, {
       maxAge: REF_MAX_AGE,

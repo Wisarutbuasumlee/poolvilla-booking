@@ -11,7 +11,8 @@
     "reports": "Reports",
     "settings": "Settings",
     "users": "Users",
-    "audit": "Audit log"
+    "audit": "Audit log",
+    "portal": "My portal"
   },
   "login": {
     "title": "Staff sign in",
@@ -111,5 +112,49 @@
     "newTitle": "New villa",
     "backToList": "Back to the villa list",
     "fixErrors": "Some fields need attention. The tab with the first problem is open."
+  },
+  "agents": {
+    "title": "Agents",
+    "count": "{n} agents",
+    "agentCode": "Code",
+    "villas": "Villas held",
+    "bookings": "Bookings",
+    "revenue": "Revenue",
+    "markupEarned": "Markup earned",
+    "commission": "Commission",
+    "status": {
+      "active": "Active",
+      "suspended": "Suspended"
+    },
+    "empty": {
+      "title": "No agents yet",
+      "body": "Add an agent and give them villas to start using referral links."
+    },
+    "backToList": "Back to agents",
+    "referralLink": "Referral link",
+    "referralHint": "Anyone opening this link sees this agent’s prices for the next 30 days, and any booking they make is recorded against this agent.",
+    "copyLink": "Copy link",
+    "copied": "Copied",
+    "qr": "QR code",
+    "villasAndPrices": "Villas and prices ({n})",
+    "noVillas": {
+      "title": "No villas assigned yet",
+      "body": "Assign a villa before setting a markup."
+    },
+    "canBlockDates": "May block dates",
+    "villaMissingRates": "This villa has no base rates yet",
+    "saveMarkup": "Save prices",
+    "saving": "Saving",
+    "saved": "Saved",
+    "saveFailed": "Could not save"
+  },
+  "portal": {
+    "yourPrices": "Your prices",
+    "yourBookings": "Your bookings",
+    "askOffice": "Ask the office to assign you a villa.",
+    "noBookings": {
+      "title": "No bookings yet",
+      "body": "Send your referral link to a guest. Bookings made through it appear here."
+    }
   }
 }
