@@ -156,5 +156,60 @@
       "title": "暂无预订",
       "body": "把推荐链接发给客人，通过链接产生的预订会显示在这里。"
     }
+  },
+  "dashboard": {
+    "title": "概览",
+    "revenue": "销售额",
+    "bookings": "预订数",
+    "adr": "平均房价",
+    "adrHint": "仅含住宿费，不含超员费与附加服务",
+    "occupancy": "入住率",
+    "revenueByNight": "每晚销售额",
+    "topVillas": "热销别墅",
+    "byAgent": "按代理",
+    "direct": "直接预订",
+    "arrivals": "本周入住",
+    "departures": "本周退房",
+    "noArrivals": "本周无入住",
+    "noDepartures": "本周无退房",
+    "noData": "此期间暂无数据",
+    "awaitingPayment": "{n} 笔待付订金，合计",
+    "review": "查看",
+    "slipsToReview": "待核对凭证"
+  },
+  "calendar": {
+    "title": "总日历",
+    "villa": "别墅",
+    "noVillas": "暂无别墅",
+    "legend": {
+      "free": "空闲",
+      "booked": "已订",
+      "held": "暂留",
+      "blocked": "已锁定"
+    }
+  },
+  "bookings": {
+    "title": "预订",
+    "searchPlaceholder": "预订号、手机号、姓名或房源编号",
+    "anyStatus": "全部状态",
+    "filter": "筛选",
+    "exportCsv": "导出 CSV",
+    "slipPending": "凭证待核对",
+    "viaAgent": "代理 {code}",
+    "deposit": "订金",
+    "viewSlip": "查看凭证",
+    "confirm": "确认预订",
+    "confirmSlip": "核对后确认",
+    "checkIn": "办理入住",
+    "complete": "完成",
+    "balancePaid": "已收尾款",
+    "cancel": "取消",
+    "cancelReason": "取消原因",
+    "confirmCancel": "确认取消",
+    "failed": "操作失败",
+    "empty": {
+      "title": "暂无预订",
+      "body": "预订将按入住日期显示在这里。"
+    }
   }
 }

@@ -156,5 +156,60 @@
       "title": "No bookings yet",
       "body": "Send your referral link to a guest. Bookings made through it appear here."
     }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "revenue": "Revenue",
+    "bookings": "Bookings",
+    "adr": "Average nightly rate",
+    "adrHint": "Accommodation only, excluding extra guests and add-ons",
+    "occupancy": "Occupancy",
+    "revenueByNight": "Revenue by night",
+    "topVillas": "Best performing villas",
+    "byAgent": "By agent",
+    "direct": "Direct, no agent",
+    "arrivals": "Arriving this week",
+    "departures": "Departing this week",
+    "noArrivals": "No arrivals this week",
+    "noDepartures": "No departures this week",
+    "noData": "Nothing in this period yet",
+    "awaitingPayment": "{n} bookings awaiting a deposit, totalling",
+    "review": "Review",
+    "slipsToReview": "Slips awaiting review"
+  },
+  "calendar": {
+    "title": "All villas",
+    "villa": "Villa",
+    "noVillas": "No villas yet",
+    "legend": {
+      "free": "Free",
+      "booked": "Booked",
+      "held": "Held",
+      "blocked": "Blocked"
+    }
+  },
+  "bookings": {
+    "title": "Bookings",
+    "searchPlaceholder": "Booking number, phone, name or villa code",
+    "anyStatus": "Any status",
+    "filter": "Filter",
+    "exportCsv": "Export CSV",
+    "slipPending": "Slip awaiting review",
+    "viaAgent": "Agent {code}",
+    "deposit": "Deposit",
+    "viewSlip": "View slip",
+    "confirm": "Confirm booking",
+    "confirmSlip": "Checked, confirm",
+    "checkIn": "Check in",
+    "complete": "Complete",
+    "balancePaid": "Balance received",
+    "cancel": "Cancel",
+    "cancelReason": "Reason for cancelling",
+    "confirmCancel": "Confirm cancellation",
+    "failed": "That did not work",
+    "empty": {
+      "title": "No bookings yet",
+      "body": "Bookings appear here, ordered by check-in date."
+    }
   }
 }
