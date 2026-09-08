@@ -33,7 +33,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'common' });
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3200'),
     title: { default: `${t('brand')} — ${t('tagline')}`, template: `%s · ${t('brand')}` },
     description: t('tagline'),
   };

@@ -7,8 +7,8 @@
 ```
 เบราว์เซอร์
   │
-  ├─ localhost:3000            → หน้าบ้าน
-  └─ admin.localhost:3000      → หลังบ้านและพอร์ทัลนายหน้า
+  ├─ localhost:3200            → หน้าบ้าน
+  └─ admin.localhost:3200      → หลังบ้านและพอร์ทัลนายหน้า
         │
         ▼
    src/proxy.ts                bypass → intl → auth → rewrite
@@ -32,11 +32,11 @@
 
 | เข้ามาแบบ | path ภายในหลัง proxy |
 |---|---|
-| `admin.localhost:3000/bookings` | `/th/admin/bookings` (rewrite แถบที่อยู่ไม่เปลี่ยน) |
-| `admin.localhost:3000/en/bookings` | `/en/admin/bookings` |
-| `admin.localhost:3000/th/admin/x` | redirect ไป `/th/x` แล้วเข้ารอบใหม่ |
-| `localhost:3000/th/admin` | ผ่านได้เฉพาะเมื่อ `ENABLE_ADMIN_PATH_FALLBACK=true` ไม่งั้น 404 |
-| `localhost:3000/th/villas` | ผ่านตรง |
+| `admin.localhost:3200/bookings` | `/th/admin/bookings` (rewrite แถบที่อยู่ไม่เปลี่ยน) |
+| `admin.localhost:3200/en/bookings` | `/en/admin/bookings` |
+| `admin.localhost:3200/th/admin/x` | redirect ไป `/th/x` แล้วเข้ารอบใหม่ |
+| `localhost:3200/th/admin` | ผ่านได้เฉพาะเมื่อ `ENABLE_ADMIN_PATH_FALLBACK=true` ไม่งั้น 404 |
+| `localhost:3200/th/villas` | ผ่านตรง |
 
 ### ลำดับใน proxy และเหตุผล
 

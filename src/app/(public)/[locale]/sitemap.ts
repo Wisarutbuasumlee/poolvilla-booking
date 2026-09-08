@@ -18,7 +18,7 @@ export const dynamic = 'force-dynamic';
  * an English one gets the English URL rather than a redirect.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, '');
+  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3200').replace(/\/$/, '');
 
   await connectToDatabase();
   const villas = await VillaModel.find(

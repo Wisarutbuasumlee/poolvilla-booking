@@ -18,11 +18,11 @@ import { routing, locales } from '@/i18n/routing';
  * it was reached. The hostname is only a transport. Because of that, the
  * (public) and (admin) route groups can never resolve to the same URL.
  *
- *   admin.localhost:3000/bookings      -> rewrite  /th/admin/bookings
- *   admin.localhost:3000/en/bookings   -> rewrite  /en/admin/bookings
- *   localhost:3000/th/admin/bookings   -> pass through, only when the path
+ *   admin.localhost:3200/bookings      -> rewrite  /th/admin/bookings
+ *   admin.localhost:3200/en/bookings   -> rewrite  /en/admin/bookings
+ *   localhost:3200/th/admin/bookings   -> pass through, only when the path
  *                                         fallback env is on, else 404
- *   localhost:3000/th/villas           -> pass through
+ *   localhost:3200/th/villas           -> pass through
  *
  * ---------------------------------------------------------------------------
  * Why the steps run in this order
@@ -36,7 +36,7 @@ import { routing, locales } from '@/i18n/routing';
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const ADMIN_HOSTS = (process.env.ADMIN_HOSTNAMES ?? 'admin.localhost:3000')
+const ADMIN_HOSTS = (process.env.ADMIN_HOSTNAMES ?? 'admin.localhost:3200')
   .split(',')
   .map((host) => host.trim().toLowerCase())
   .filter(Boolean);

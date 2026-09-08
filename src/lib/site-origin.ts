@@ -18,14 +18,14 @@ export async function publicOrigin(): Promise<string> {
     ''
   ).toLowerCase();
 
-  if (!host) return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+  if (!host) return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3200';
 
   const protocol =
     requestHeaders.get('x-forwarded-proto') ??
     (process.env.NODE_ENV === 'production' ? 'https' : 'http');
 
   // A referral link is for guests, so it must never carry the admin hostname.
-  const adminHosts = (process.env.ADMIN_HOSTNAMES ?? 'admin.localhost:3000')
+  const adminHosts = (process.env.ADMIN_HOSTNAMES ?? 'admin.localhost:3200')
     .split(',')
     .map((entry) => entry.trim().toLowerCase());
 

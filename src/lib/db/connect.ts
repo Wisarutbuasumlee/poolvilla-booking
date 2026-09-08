@@ -39,7 +39,7 @@ export async function connectToDatabase(): Promise<Mongoose> {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     throw new Error(
-      'MONGODB_URI is not set. Copy .env.example to .env.local, then run npm run db:up.',
+      'MONGODB_URI is not set. Copy .env.example to .env.local and point it at the MongoDB running on this machine.',
     );
   }
 

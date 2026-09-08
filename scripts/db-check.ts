@@ -25,23 +25,42 @@ async function main() {
   console.log('server     ', (await admin.command({ buildInfo: 1 })).version);
   console.log('replica set', hello.setName ?? 'none (standalone: no transactions)');
 
-  process.env.MONGODB_TRANSACTIONS ??= 'true';
+  // Report what the app is configured to do, then probe what the server can
+  // actually do. These are different questions and conflating them is how you
+  // end up believing a standalone rolled something back.
+  const configured = process.env.MONGODB_TRANSACTIONS === 'true';
+  console.log(
+    'configured ',
+    configured
+      ? 'transactions ON'
+      : 'transactions OFF (unique index still enforces booking safety)',
+  );
+
+  // Force the probe on regardless of configuration, so this reports the
+  // deployment's real capability rather than the current setting.
+  process.env.MONGODB_TRANSACTIONS = 'true';
   try {
     await withTransaction(async (session) => {
-      await mongoose.connection
-        .collection('__db_check')
-        .insertOne({ at: new Date() }, { session });
+      await mongoose.connection.collection('__db_check').insertOne({ at: new Date() }, { session });
       throw new Error('__rollback__');
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.log('transaction', message === '__rollback__' ? 'yes (rolled back cleanly)' : 'NO: ' + message);
+    console.log(
+      'supported  ',
+      message === '__rollback__' ? 'yes (rolled back cleanly)' : 'no: ' + message,
+    );
+  } finally {
+    process.env.MONGODB_TRANSACTIONS = configured ? 'true' : 'false';
   }
 
   const left = await mongoose.connection.collection('__db_check').countDocuments();
   console.log('rollback   ', left === 0 ? 'verified, nothing written' : `LEAKED ${left} docs`);
 
-  await mongoose.connection.collection('__db_check').drop().catch(() => {});
+  await mongoose.connection
+    .collection('__db_check')
+    .drop()
+    .catch(() => {});
   await disconnectFromDatabase();
 }
 

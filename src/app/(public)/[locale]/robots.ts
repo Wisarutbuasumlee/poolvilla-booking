@@ -9,7 +9,7 @@ import type { MetadataRoute } from 'next';
  * result, and in the case of a booking, publishes a stranger's travel dates.
  */
 export default function robots(): MetadataRoute.Robots {
-  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, '');
+  const origin = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3200').replace(/\/$/, '');
 
   return {
     rules: {

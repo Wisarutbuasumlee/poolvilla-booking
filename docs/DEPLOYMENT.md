@@ -7,7 +7,7 @@
 
 | ไฟล์ | ใช้เมื่อไหร่ | รันอะไร |
 |---|---|---|
-| `docker-compose.yml` | ตอนพัฒนา | เฉพาะ infrastructure คือ mongo, mongo-express, redis ส่วนแอปรันบนเครื่องด้วย `npm run dev` |
+| ไม่มีไฟล์ compose | ตอนพัฒนา | ไม่มี container เลย แอปรันด้วย `npm run dev` และต่อเข้า MongoDB ตัวที่รันอยู่บนเครื่อง ดู D-004 |
 | `docker-compose.prod.yml` | ตอนขึ้นจริง | ทุกอย่างเป็นคอนเทนเนอร์ รวมแอปและ nginx |
 
 ## ผังของสแตกจริง

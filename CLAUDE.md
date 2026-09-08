@@ -34,7 +34,7 @@
 | Framework | Next.js **16.3.4** App Router | Turbopack เป็นค่าเริ่มต้น ไม่ต้องใส่ `--turbopack` |
 | React | 19.2 | |
 | Styling | Tailwind CSS v4 | CSS-first ไม่มี `tailwind.config.ts` |
-| Database | MongoDB 7 + Mongoose 9 | รันเป็น single-node replica set |
+| Database | MongoDB 7 + Mongoose 9 | ต่อเข้าตัวที่รันอยู่บนเครื่อง โปรเจกต์นี้ไม่ยก container เอง |
 | Auth | Auth.js v5 beta (ล็อกเลขตายตัว) | |
 | i18n | next-intl 4 | ไทย อังกฤษ จีน |
 | Theme | next-themes | สว่างเป็นค่าเริ่มต้น |
@@ -49,19 +49,20 @@ TypeScript ล็อกที่ 5.9.3 เพราะ typescript-eslint ยั�
 ## 4. คำสั่ง
 
 ```bash
-npm run dev          # ยก container, seed ถ้าฐานข้อมูลว่าง, แล้วสตาร์ตแอป
-npm run dev:next     # เฉพาะแอป ไม่ยุ่งกับ container
-npm run db:up        # ยก container อย่างเดียว
+npm run dev          # เช็คฐานข้อมูล, seed ถ้าว่าง, แล้วสตาร์ตแอปที่พอร์ต 3200
+npm run dev:next     # เฉพาะแอป ข้ามการเช็คฐานข้อมูล
+npm run db:check     # ตรวจว่าต่อฐานข้อมูลได้และ index ครบ
 npm run seed         # ล้างแล้วสร้างข้อมูลตัวอย่างใหม่ ระวัง ข้อมูลเดิมหายหมด
 npm run build        # ต้องผ่านก่อนปิดทุก Phase
 npm run lint         # ต้องผ่านก่อนปิดทุก Phase
 npm run typecheck
 npm test             # unit
 npm run test:e2e     # playwright
-npm run db:reset     # ล้าง volume แล้วยกใหม่
 ```
 
 `admin.localhost` ใช้ได้เลยใน Chrome และ Edge โดยไม่ต้องแก้ hosts
+
+**โปรเจกต์นี้ไม่มี container ของตัวเอง** MongoDB ที่ใช้คือตัวที่รันอยู่บนเครื่องแล้ว และแอปอยู่ที่พอร์ต 3200 เพราะ ERP บนเครื่องเดียวกันถือ 3000, 3001, 80, 443 และ 27017 อยู่ ห้ามเพิ่ม `docker-compose.yml` สำหรับตอนพัฒนากลับเข้ามา มันเคยแย่งพอร์ต 27017 กับ ERP มาแล้ว ดู D-004
 
 ## 5. โครงสร้างโฟลเดอร์
 

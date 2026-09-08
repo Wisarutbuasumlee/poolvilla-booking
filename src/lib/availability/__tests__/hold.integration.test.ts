@@ -22,7 +22,7 @@ config({ path: ['.env.local', '.env'], quiet: true });
  * the entire point is that the storage engine arbitrates, so two concurrent
  * writers cannot both win.
  *
- *   npm run db:up && npm test
+ *   npm test   (with the machine's MongoDB running)
  */
 
 const URI = (process.env.MONGODB_URI ?? '').replace(/\/poolvilla\b/, '/poolvilla_test');
@@ -76,14 +76,16 @@ function requireDb(ctx: { skip: () => void }) {
   if (connected) return;
 
   if (process.env.REQUIRE_DB === 'true') {
-    throw new Error('REQUIRE_DB is set but MongoDB is not reachable. Run npm run db:up.');
+    throw new Error(
+      'REQUIRE_DB is set but MongoDB is not reachable. Start the MongoDB this project connects to, then run npm test again.',
+    );
   }
 
   if (!warned) {
     warned = true;
     console.warn(
       '\n  Skipping the availability integration tests: MongoDB is not reachable.' +
-        '\n  Run `npm run db:up` to exercise the double-booking protection.\n',
+        '\n  Start MongoDB to exercise the double-booking protection.\n',
     );
   }
 

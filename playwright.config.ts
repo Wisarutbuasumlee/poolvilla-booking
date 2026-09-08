@@ -9,9 +9,10 @@ import { defineConfig, devices } from '@playwright/test';
  * the calendar cannot double book, but neither one knows whether a guest can
  * actually get from the home page to a confirmed booking.
  *
- * Prerequisites, and the suite says so rather than failing cryptically:
- *
- *   npm run db:up && npm run seed
+ * Prerequisite: the MongoDB this project uses must be running. It is not
+ * started here and it is not started by the app either, because this project
+ * owns no containers; see scripts/dev.mjs. Sample data is seeded on the first
+ * run into an empty database.
  *
  * The dev server is started for you unless one is already listening.
  */
@@ -32,7 +33,7 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['list']],
 
   use: {
-    baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3000',
+    baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3200',
     locale: 'th-TH',
     timezoneId: 'Asia/Bangkok',
     // Evidence for the failures that only happen on someone else's machine.
@@ -57,7 +58,7 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:3000/th',
+    url: 'http://localhost:3200/th',
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
     stdout: 'ignore',

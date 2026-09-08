@@ -6,7 +6,7 @@
 
 ## เริ่มใช้งาน
 
-ต้องมี Node.js 20.9 ขึ้นไป และ Docker
+ต้องมี Node.js 20.9 ขึ้นไป และ MongoDB ที่รันอยู่บนเครื่องแล้ว
 
 ```bash
 cp .env.example .env.local     # แล้วใส่ AUTH_SECRET
@@ -16,38 +16,40 @@ npm install
 npm run dev
 ```
 
-คำสั่งเดียวจบ `npm run dev` ทำสามอย่างให้เอง คือยก container แล้วรอจนพร้อมจริง เติมข้อมูลตัวอย่างถ้าฐานข้อมูลยังว่าง แล้วจึงสตาร์ตแอป
+คำสั่งเดียวจบ `npm run dev` เช็คว่าต่อ MongoDB ได้ เติมข้อมูลตัวอย่างถ้าฐานข้อมูลยังว่าง แล้วจึงสตาร์ตแอป
+
+**โปรเจกต์นี้ไม่ยก container ของตัวเองเลย** มันต่อเข้า MongoDB ตัวที่รันอยู่บนเครื่องอยู่แล้ว และใช้ฐานข้อมูลชื่อ `poolvilla` ของตัวเองข้างใน เหตุผลคือเครื่องนี้มีสแตก ERP อยู่ด้วย ตอนที่โปรเจกต์นี้ยก mongo ของตัวเองมันแย่งพอร์ต 27017 กับ ERP ตัวที่ขึ้นทีหลังจะแพ้ แล้วอาการที่เห็นจะเหมือนบั๊กในโค้ดมากกว่าพอร์ตชนกัน
 
 **ข้อมูลตัวอย่างจะถูกเติมเฉพาะตอนฐานข้อมูลว่าง** เพราะ `seed` ล้างทุกอย่างทิ้งแล้วสร้างใหม่ ถ้ามันทำงานทุกครั้งที่สตาร์ต บ้านที่คุณเพิ่งเพิ่มกับการจองที่เพิ่งทดสอบจะหายไปทุกรอบ อยากล้างแล้วสร้างใหม่จริง ๆ ให้สั่ง `npm run seed` เอง
 
 | ที่อยู่ | คืออะไร |
 |---|---|
-| http://localhost:3000 | เว็บฝั่งลูกค้า |
-| http://admin.localhost:3000 | หลังบ้านและพอร์ทัลนายหน้า |
-| http://localhost:8081 | mongo-express ดูฐานข้อมูล |
+| http://localhost:3200 | เว็บฝั่งลูกค้า |
+| http://admin.localhost:3200 | หลังบ้านและพอร์ทัลนายหน้า |
 
-**เรื่อง `admin.localhost`** Chrome, Edge และ Firefox รุ่นใหม่ resolve `*.localhost` เป็น `127.0.0.1` ให้เองอยู่แล้ว ไม่ต้องแก้ไฟล์ hosts ถ้าเบราว์เซอร์หรือเครื่องมือของคุณไม่รองรับ ให้เปิด `ENABLE_ADMIN_PATH_FALLBACK=true` ใน `.env.local` แล้วเข้าที่ http://localhost:3000/th/admin แทน อย่าเปิดค่านี้บนเครื่องจริง
+พอร์ต 3200 ไม่ใช่ 3000 เพราะ ERP บนเครื่องนี้ถือ 3000 กับ 3001 อยู่ ย้ายได้ที่ `PORT` ใน `.env.local` แต่ต้องแก้ `NEXT_PUBLIC_SITE_URL` กับ `ADMIN_HOSTNAMES` ตามไปด้วย ไม่งั้นหลังบ้านจะไม่รู้จักตัวเอง
+
+**เรื่อง `admin.localhost`** Chrome, Edge และ Firefox รุ่นใหม่ resolve `*.localhost` เป็น `127.0.0.1` ให้เองอยู่แล้ว ไม่ต้องแก้ไฟล์ hosts ถ้าเบราว์เซอร์หรือเครื่องมือของคุณไม่รองรับ ให้เปิด `ENABLE_ADMIN_PATH_FALLBACK=true` ใน `.env.local` แล้วเข้าที่ http://localhost:3200/th/admin แทน อย่าเปิดค่านี้บนเครื่องจริง
 
 ## คำสั่ง
 
 | คำสั่ง | ทำอะไร |
 |---|---|
-| `npm run dev` | ยก container เติมข้อมูลถ้าจำเป็น แล้วรันแอปที่พอร์ต 3000 |
-| `npm run dev:next` | รันเฉพาะแอป ไม่ยุ่งกับ container |
+| `npm run dev` | เช็คฐานข้อมูล เติมข้อมูลถ้าจำเป็น แล้วรันแอปที่พอร์ต 3200 |
+| `npm run dev:next` | รันเฉพาะแอป ข้ามการเช็คฐานข้อมูล |
 | `npm run build` | build โปรดักชัน |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | ตรวจชนิดข้อมูล |
 | `npm test` | unit test |
 | `npm run test:e2e` | Playwright |
-| `npm run db:up` / `db:down` | ยกและปิด infrastructure |
-| `npm run db:reset` | ล้าง volume แล้วยกใหม่ |
+| `npm run db:check` | ตรวจว่าต่อฐานข้อมูลได้และ index ครบ |
 | `npm run seed` | เติมข้อมูลตัวอย่าง |
 
-แอปรันบนเครื่องปกติ Docker ใช้เฉพาะ MongoDB, mongo-express และ Redis
+แอปกับฐานข้อมูลรันบนเครื่องตรง ๆ ไม่มี container ของโปรเจกต์นี้เลย Docker ใช้เฉพาะตอน deploy ขึ้นเซิร์ฟเวอร์จริง ดู `docs/DEPLOYMENT.md`
 
 ## สถาปัตยกรรมที่ควรรู้ก่อนแก้โค้ด
 
-**MongoDB รันเป็น single-node replica set** ไม่ใช่ standalone เพราะ standalone ทำ transaction ไม่ได้เลย รายละเอียดและเหตุผลอยู่ที่ `docs/DECISIONS.md` ข้อ D-003 และ D-004
+**บนเครื่องพัฒนา MongoDB เป็น standalone ทำ transaction ไม่ได้** และระบบไม่ได้พึ่ง transaction อยู่แล้ว กลไกกันจองซ้อนคือ unique index บน `{villaId, dateKey}` ส่วน transaction เป็นแค่ชั้นเสริมที่เปิดด้วย `MONGODB_TRANSACTIONS=true` เมื่อขึ้น replica set จริง ดู `docs/DECISIONS.md` ข้อ D-003 และ D-004
 
 **หลังบ้านอยู่ที่ path ภายใน `/{locale}/admin/...` เสมอ** hostname เป็นแค่ทางเข้า `src/proxy.ts` เป็นคนตัดสิน อ่านคอมเมนต์ในไฟล์นั้นก่อนแก้ มันเป็นจุดที่เปราะที่สุดของโปรเจกต์
 

@@ -115,7 +115,7 @@ async function defaultTarget(locale: Locale): Promise<string> {
     ''
   ).toLowerCase();
 
-  const adminHosts = (process.env.ADMIN_HOSTNAMES ?? 'admin.localhost:3000')
+  const adminHosts = (process.env.ADMIN_HOSTNAMES ?? 'admin.localhost:3200')
     .split(',')
     .map((entry) => entry.trim().toLowerCase());
 
