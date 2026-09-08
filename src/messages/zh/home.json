@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "title": "私人泳池别墅，实时可订日期",
+    "subtitle": "选择日期，立即查看每栋别墅的真实价格"
+  },
+  "filters": {
+    "title": "快速筛选",
+    "slider": "滑梯",
+    "karaoke": "卡拉OK",
+    "snooker": "桌球台",
+    "pet": "可带宠物",
+    "beach": "临海",
+    "loudMusic": "可放音乐"
+  },
+  "sections": {
+    "featured": "精选别墅",
+    "newest": "最新上架",
+    "popular": "热门预订",
+    "byZone": "按区域浏览",
+    "howTo": "预订流程",
+    "reviews": "住客评价",
+    "faq": "常见问题"
+  }
+}

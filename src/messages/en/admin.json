@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "villas": "Villas",
+    "agents": "Agents",
+    "bookings": "Bookings",
+    "calendar": "Calendar",
+    "holidays": "Holidays",
+    "promotions": "Promotions",
+    "inquiries": "Inquiries",
+    "reports": "Reports",
+    "settings": "Settings",
+    "users": "Users",
+    "audit": "Audit log"
+  },
+  "login": {
+    "title": "Staff sign in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in"
+  }
+}

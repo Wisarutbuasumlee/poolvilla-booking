@@ -1,0 +1,25 @@
+{
+  "steps": {
+    "dates": "选择日期",
+    "details": "填写资料",
+    "review": "确认",
+    "pay": "付款",
+    "done": "完成"
+  },
+  "holdNotice": "已为您暂留这些日期，请在倒计时结束前完成付款。",
+  "lookup": {
+    "title": "查询预订",
+    "bookingNo": "预订编号",
+    "phone": "预订手机号"
+  },
+  "summary": {
+    "accommodation": "住宿费",
+    "extraGuest": "超员费",
+    "addOns": "附加服务",
+    "discount": "折扣",
+    "total": "合计",
+    "deposit": "订金",
+    "balance": "尾款",
+    "damageDeposit": "损坏押金，退房时退还"
+  }
+}

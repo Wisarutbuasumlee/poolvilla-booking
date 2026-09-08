@@ -1,0 +1,42 @@
+{
+  "tagline": "Private pool villas by the night, in Pattaya and across Thailand",
+  "nav": {
+    "villas": "Find a villa",
+    "about": "About",
+    "contact": "Contact",
+    "faq": "FAQ"
+  },
+  "action": {
+    "search": "Search",
+    "book": "Book now",
+    "lineChat": "Ask on LINE",
+    "call": "Call us",
+    "viewDetail": "View details",
+    "seeAll": "See all"
+  },
+  "label": {
+    "zone": "Destination",
+    "checkIn": "Check in",
+    "checkOut": "Check out",
+    "guests": "Guests",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "villaCode": "Villa code",
+    "perNight": "per night",
+    "from": "from"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle": "Switch theme"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "state": {
+    "loading": "Loading",
+    "empty": "Nothing here yet",
+    "error": "Something went wrong"
+  }
+}

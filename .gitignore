@@ -1,0 +1,57 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# next
+.next/
+out/
+next-env.d.ts
+.next-docs/
+
+# production
+build/
+dist/
+
+# testing
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# uploads (runtime data, never committed)
+storage/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# impeccable local state
+.impeccable/config.local.json
+.impeccable/live/
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / os
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# typescript
+*.tsbuildinfo
+
+# Installed agent tooling. Reinstallable, large, and not project source.
+# impeccable:  npx impeccable@latest install --project --providers=claude -y
+# other skills: tracked by skills-lock.json
+.agents/
+.claude/skills/
+.claude/agents/
+
+# impeccable runtime cache
+.impeccable/hook.cache.json

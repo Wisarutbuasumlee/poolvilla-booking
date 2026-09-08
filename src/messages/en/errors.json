@@ -1,0 +1,17 @@
+{
+  "notFound": {
+    "title": "Page not found",
+    "body": "The link may have moved or been mistyped."
+  },
+  "serverError": {
+    "title": "Something broke",
+    "body": "Try again. If it keeps happening, contact us."
+  },
+  "forbidden": {
+    "title": "No access",
+    "body": "Your account cannot open this page."
+  },
+  "required": "This field is required",
+  "invalidPhone": "That phone number is not valid",
+  "invalidEmail": "That email address is not valid"
+}

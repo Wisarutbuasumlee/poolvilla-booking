@@ -1,0 +1,24 @@
+{
+  "summary": "At a glance",
+  "pool": "Swimming pool",
+  "amenities": "Amenities",
+  "bedrooms": "Sleeping arrangements",
+  "kitchen": "Kitchen equipment",
+  "kitchenHas": "Provided",
+  "kitchenLacks": "Not provided",
+  "rules": "House rules",
+  "parking": "Parking",
+  "extraCharges": "Extra charges",
+  "priceTable": "Rates",
+  "calendar": "Availability",
+  "location": "Location",
+  "damageDeposit": "Damage deposit",
+  "extraGuest": "Extra guest fee",
+  "nearby": "Nearby attractions",
+  "dayType": {
+    "sunThu": "Sun to Thu",
+    "fri": "Friday",
+    "sat": "Saturday",
+    "holiday": "Public holiday"
+  }
+}

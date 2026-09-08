@@ -1,0 +1,24 @@
+{
+  "summary": "概览",
+  "pool": "游泳池",
+  "amenities": "设施",
+  "bedrooms": "床位安排",
+  "kitchen": "厨房设备",
+  "kitchenHas": "提供",
+  "kitchenLacks": "不提供",
+  "rules": "入住规定",
+  "parking": "停车",
+  "extraCharges": "额外费用",
+  "priceTable": "价格表",
+  "calendar": "可订日期",
+  "location": "位置",
+  "damageDeposit": "损坏押金",
+  "extraGuest": "超员费用",
+  "nearby": "周边景点",
+  "dayType": {
+    "sunThu": "周日至周四",
+    "fri": "周五",
+    "sat": "周六",
+    "holiday": "公共假日"
+  }
+}

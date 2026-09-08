@@ -1,0 +1,205 @@
+@import 'tailwindcss';
+
+/* next-themes writes class="dark" on <html>; bind Tailwind's dark variant to it
+   rather than to prefers-color-scheme, so the user's explicit toggle wins. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Every colour, radius, shadow and type step in the product
+   comes from here. A component that hard-codes a hex value has escaped the
+   system and will not survive the theme switch.
+
+   Direction: the category standard, executed at the craft level of Airbnb and
+   Agoda. Light is the default; dark is a real second theme, not an inversion.
+   Photography carries the page, so the chrome stays quiet and the only
+   saturated colour on a resting screen is the primary action.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* --- Brand: a resort teal. Reserved for primary actions and the
+     "available" state. Never used as a decorative fill. --- */
+  --color-brand-50: #e8f5f3;
+  --color-brand-100: #c9e8e4;
+  --color-brand-200: #9ed6cf;
+  --color-brand-300: #6dbfb6;
+  --color-brand-400: #3aa197;
+  --color-brand-500: #12857c;
+  --color-brand-600: #0b6a63;
+  --color-brand-700: #08544f;
+  --color-brand-800: #06413d;
+  --color-brand-900: #042d2a;
+
+  /* --- Neutrals carry a faint warm-green cast so white photography grounds
+     do not read as clinical blue-grey. --- */
+  --color-ink-900: #121a19;
+  --color-ink-800: #1d2827;
+  --color-ink-700: #33413f;
+  --color-ink-600: #4d5c5a;
+  --color-ink-500: #6b7a78;
+  --color-ink-400: #8d9b99;
+  --color-ink-300: #b6c1bf;
+  --color-ink-200: #d8dfdd;
+  --color-ink-100: #eaefee;
+  --color-ink-50: #f5f8f7;
+
+  /* --- Fixed brand colours owned by third parties. Never re-tinted. --- */
+  --color-line: #06c755;
+  --color-line-ink: #ffffff;
+
+  /* --- Status. Gold marks a promotional rate; it is not a brand colour. --- */
+  --color-success: #197a48;
+  --color-warning: #b8892a;
+  --color-danger: #c2362b;
+  --color-info: #2563a8;
+
+  /* --- Radii. One family, no ad-hoc values. --- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.5rem;
+
+  /* --- Elevation. Two levels only: a resting card and a floating surface.
+     A third level is almost always a layout problem wearing a shadow. --- */
+  --shadow-card: 0 1px 2px rgb(18 26 25 / 0.06), 0 4px 12px rgb(18 26 25 / 0.06);
+  --shadow-float: 0 4px 8px rgb(18 26 25 / 0.08), 0 12px 32px rgb(18 26 25 / 0.12);
+
+  /* --- Type. Latin and Thai are separate stacks bound per locale in
+     src/i18n/fonts.ts, because Thai needs more line height than Latin at the
+     same optical size. --- */
+  --font-sans: var(--font-latin), var(--font-thai), ui-sans-serif, system-ui, sans-serif;
+  --font-thai-stack: var(--font-thai), ui-sans-serif, system-ui, sans-serif;
+
+  /* Prices are the one thing a scanning visitor must never misread, so they
+     get tabular figures everywhere they appear. */
+  --font-price: var(--font-latin), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Semantic surface tokens. Components reference these, never the ramp above,
+   so a theme change is one block of overrides instead of a grep.
+--------------------------------------------------------------------------- */
+
+:root {
+  --bg-page: #fbfaf8;
+  --bg-surface: #ffffff;
+  --bg-raised: #ffffff;
+  --bg-sunken: var(--color-ink-50);
+  --bg-inverse: var(--color-ink-900);
+
+  --fg-default: var(--color-ink-900);
+  --fg-muted: var(--color-ink-500);
+  --fg-subtle: var(--color-ink-400);
+  --fg-inverse: #ffffff;
+  --fg-onBrand: #ffffff;
+
+  --border-default: var(--color-ink-200);
+  --border-strong: var(--color-ink-300);
+  --border-focus: var(--color-brand-500);
+
+  --accent: var(--color-brand-500);
+  --accent-hover: var(--color-brand-600);
+  --accent-subtle: var(--color-brand-50);
+
+  /* Availability vocabulary, used identically by the villa calendar, the
+     admin multi-villa grid, and the agent portal. One meaning, one colour. */
+  --cal-available: var(--bg-surface);
+  --cal-available-fg: var(--color-ink-900);
+  --cal-booked: var(--color-ink-100);
+  --cal-booked-fg: var(--color-ink-400);
+  --cal-held: #fdf4e3;
+  --cal-held-fg: var(--color-warning);
+  --cal-selected: var(--color-brand-500);
+  --cal-selected-fg: #ffffff;
+  --cal-promo-fg: var(--color-warning);
+}
+
+.dark {
+  --bg-page: #0e1413;
+  --bg-surface: #161f1e;
+  --bg-raised: #1d2827;
+  --bg-sunken: #0a100f;
+  --bg-inverse: var(--color-ink-50);
+
+  --fg-default: #e9efed;
+  --fg-muted: #9aa8a6;
+  --fg-subtle: #74827f;
+  --fg-inverse: var(--color-ink-900);
+  --fg-onBrand: #04211f;
+
+  --border-default: #2a3634;
+  --border-strong: #3b4a47;
+  --border-focus: var(--color-brand-300);
+
+  /* The 500 step is too dark to sit on a dark ground at AA, so dark mode
+     steps the brand up rather than reusing the light value. */
+  --accent: var(--color-brand-300);
+  --accent-hover: var(--color-brand-200);
+  --accent-subtle: #0c2e2b;
+
+  --cal-available: var(--bg-surface);
+  --cal-available-fg: #e9efed;
+  --cal-booked: #1a2322;
+  --cal-booked-fg: #5d6b69;
+  --cal-held: #2a2416;
+  --cal-held-fg: #d9ad55;
+  --cal-selected: var(--color-brand-300);
+  --cal-selected-fg: #04211f;
+  --cal-promo-fg: #d9ad55;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--fg-default);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Thai sits lower and needs more leading than Latin at the same size.
+     Setting it on the root of a Thai document is cheaper and more reliable
+     than per-component overrides. */
+  html[lang='th'] body {
+    line-height: 1.7;
+  }
+
+  /* A visible focus ring is not optional; the date picker and the gallery
+     are both keyboard-operable and both are on the path to a booking. */
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Prices, dates, counts. Misaligned figures in a price column read as an
+     error even when the numbers are right. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

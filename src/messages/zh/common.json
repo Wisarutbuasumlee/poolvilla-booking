@@ -1,0 +1,42 @@
+{
+  "tagline": "芭堤雅及全泰国私人泳池别墅，按晚出租",
+  "nav": {
+    "villas": "搜索别墅",
+    "about": "关于我们",
+    "contact": "联系",
+    "faq": "常见问题"
+  },
+  "action": {
+    "search": "搜索",
+    "book": "立即预订",
+    "lineChat": "LINE 咨询",
+    "call": "致电",
+    "viewDetail": "查看详情",
+    "seeAll": "查看全部"
+  },
+  "label": {
+    "zone": "目的地",
+    "checkIn": "入住",
+    "checkOut": "退房",
+    "guests": "入住人数",
+    "bedrooms": "卧室",
+    "bathrooms": "浴室",
+    "villaCode": "房源编号",
+    "perNight": "每晚",
+    "from": "起"
+  },
+  "theme": {
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统",
+    "toggle": "切换主题"
+  },
+  "language": {
+    "label": "语言"
+  },
+  "state": {
+    "loading": "加载中",
+    "empty": "暂无内容",
+    "error": "出错了"
+  }
+}

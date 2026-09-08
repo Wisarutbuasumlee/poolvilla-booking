@@ -1,0 +1,17 @@
+{
+  "notFound": {
+    "title": "页面不存在",
+    "body": "链接可能已更改或输入有误。"
+  },
+  "serverError": {
+    "title": "系统出错",
+    "body": "请重试。如果持续出现，请联系我们。"
+  },
+  "forbidden": {
+    "title": "无权访问",
+    "body": "您的账号无法打开此页面。"
+  },
+  "required": "此项为必填",
+  "invalidPhone": "手机号格式不正确",
+  "invalidEmail": "邮箱格式不正确"
+}

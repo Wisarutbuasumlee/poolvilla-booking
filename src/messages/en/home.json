@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "title": "Private pool villas with real, live availability",
+    "subtitle": "Pick your dates and see every villa at its real price"
+  },
+  "filters": {
+    "title": "Quick filters",
+    "slider": "Pool slide",
+    "karaoke": "Karaoke",
+    "snooker": "Snooker table",
+    "pet": "Pet friendly",
+    "beach": "Near the beach",
+    "loudMusic": "Loud music allowed"
+  },
+  "sections": {
+    "featured": "Featured villas",
+    "newest": "Newly listed",
+    "popular": "Most booked",
+    "byZone": "Browse by area",
+    "howTo": "How booking works",
+    "reviews": "Guest reviews",
+    "faq": "Frequently asked"
+  }
+}

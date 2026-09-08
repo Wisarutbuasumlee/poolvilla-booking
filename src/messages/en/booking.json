@@ -1,0 +1,25 @@
+{
+  "steps": {
+    "dates": "Dates",
+    "details": "Your details",
+    "review": "Review",
+    "pay": "Payment",
+    "done": "Confirmed"
+  },
+  "holdNotice": "These dates are held for you. Please pay before the timer runs out.",
+  "lookup": {
+    "title": "Check a booking",
+    "bookingNo": "Booking number",
+    "phone": "Phone used to book"
+  },
+  "summary": {
+    "accommodation": "Accommodation",
+    "extraGuest": "Extra guests",
+    "addOns": "Add-ons",
+    "discount": "Discount",
+    "total": "Total",
+    "deposit": "Deposit",
+    "balance": "Balance due",
+    "damageDeposit": "Damage deposit, refunded at check-out"
+  }
+}

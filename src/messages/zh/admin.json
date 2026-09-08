@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "dashboard": "概览",
+    "villas": "别墅管理",
+    "agents": "代理管理",
+    "bookings": "预订",
+    "calendar": "总日历",
+    "holidays": "假日",
+    "promotions": "促销",
+    "inquiries": "咨询",
+    "reports": "报表",
+    "settings": "设置",
+    "users": "用户",
+    "audit": "操作日志"
+  },
+  "login": {
+    "title": "后台登录",
+    "email": "邮箱",
+    "password": "密码",
+    "submit": "登录"
+  }
+}

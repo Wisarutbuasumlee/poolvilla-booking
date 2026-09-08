@@ -1,0 +1,10 @@
+.next
+node_modules
+storage
+coverage
+playwright-report
+test-results
+.impeccable
+.agents
+.claude
+package-lock.json
