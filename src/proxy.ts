@@ -1,4 +1,5 @@
 import createIntlMiddleware from 'next-intl/middleware';
+import { getToken } from 'next-auth/jwt';
 import { NextResponse, type NextRequest } from 'next/server';
 import { routing, locales } from '@/i18n/routing';
 
@@ -50,11 +51,25 @@ const REF_MAX_AGE = 60 * 60 * 24 * 30;
 const LOCALE_SEGMENT = locales.join('|');
 const ADMIN_PATH = new RegExp(`^/(?:(?:${LOCALE_SEGMENT})/)?admin(?:/|$)`);
 
+/** The sign-in page lives inside the admin tree but outside its guard. */
+const LOGIN_PATH = new RegExp(`^/(?:(?:${LOCALE_SEGMENT})/)?login/?$`);
+
+/**
+ * Auth.js changes its cookie name under HTTPS, and getToken's salt has to
+ * match it. Getting this wrong reads as "signed in, then instantly signed out
+ * again", and only in production.
+ */
+function sessionCookieName(): string {
+  return process.env.NODE_ENV === 'production'
+    ? '__Secure-authjs.session-token'
+    : 'authjs.session-token';
+}
+
 function isLocale(segment: string | undefined): segment is (typeof locales)[number] {
   return segment !== undefined && (locales as readonly string[]).includes(segment);
 }
 
-export function proxy(request: NextRequest): NextResponse {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname, searchParams } = request.nextUrl;
 
   // --- Step 0: hard bypass. Neither intl nor the rewrite should ever see
@@ -113,11 +128,32 @@ export function proxy(request: NextRequest): NextResponse {
   const locale = pathname.split('/')[1] ?? routing.defaultLocale;
 
   // --- Step 3: authentication for the admin surface.
-  // Added in Phase 2 alongside Auth.js. It belongs here, between intl and the
-  // rewrite: it needs the locale to build the sign-in URL, and it may redirect,
-  // which cannot coexist with the rewrite below. Note that even then this is
-  // only a coarse gate; every Server Action re-checks the role, so an auth
-  // regression here degrades to a routing bug and not to a data leak.
+  //
+  // It sits here, between intl and the rewrite, for two reasons: it needs the
+  // resolved locale to build the sign-in URL, and it may redirect, which
+  // cannot coexist with the rewrite below.
+  //
+  // This is a COARSE gate. It asks only whether a valid session token exists,
+  // so an anonymous visitor lands on the sign-in page instead of a broken
+  // screen. Every page and Server Action re-checks the role through
+  // src/lib/auth/rbac.ts, which is what keeps a routing regression here a UX
+  // bug rather than a data leak.
+  if (isAdminHost || (PATH_FALLBACK && looksLikeAdminPath)) {
+    if (!LOGIN_PATH.test(pathname)) {
+      const token = await getToken({
+        req: request,
+        secret: process.env.AUTH_SECRET,
+        salt: sessionCookieName(),
+        secureCookie: process.env.NODE_ENV === 'production',
+      });
+
+      if (!token) {
+        const login = new URL(`/${locale}/login`, request.url);
+        login.searchParams.set('callbackUrl', pathname + request.nextUrl.search);
+        return withRefCookie(NextResponse.redirect(login), searchParams);
+      }
+    }
+  }
 
   // --- Step 4: the rewrite, applied last so it carries intl's state forward.
   if (isAdminHost) {

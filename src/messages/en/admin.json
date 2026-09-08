@@ -17,6 +17,7 @@
     "title": "Staff sign in",
     "email": "Email",
     "password": "Password",
-    "submit": "Sign in"
+    "submit": "Sign in",
+    "failed": "Email or password is incorrect"
   }
 }

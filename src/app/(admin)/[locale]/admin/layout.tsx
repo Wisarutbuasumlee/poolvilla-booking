@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
@@ -38,25 +38,19 @@ export default async function AdminRootLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const t = await getTranslations({ locale, namespace: 'common' });
-
   return (
     <html lang={locale} className={fontClassNames(locale)} suppressHydrationWarning>
-      <body className="min-h-dvh bg-[var(--bg-sunken)] antialiased">
+      <body className="min-h-dvh bg-[var(--bg-page)] antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <NextIntlClientProvider>
-            <div className="mx-auto max-w-7xl px-4 py-8">
-              <p className="mb-6 text-xs font-medium uppercase tracking-wider text-[var(--fg-subtle)]">
-                {t('brand')} · admin
-              </p>
-              {children}
-            </div>
-          </NextIntlClientProvider>
+          {/* No chrome here. The signed-in shell supplies its own, and the
+              sign-in page is deliberately a bare centred card, so anything
+              added at this level would appear on both and belong to neither. */}
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

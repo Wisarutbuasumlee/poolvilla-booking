@@ -1,0 +1,51 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - paragraph [ref=f3e3]: PoolVilla · admin
+    - generic [ref=f3e33]:
+      - complementary [ref=f3e34]:
+        - generic [ref=f3e35]: PoolVilla
+        - navigation [ref=f3e43]:
+          - link "ภาพรวม" [ref=f3e44] [cursor=pointer]:
+            - /url: /th/admin
+          - link "จัดการบ้าน" [ref=f3e50] [cursor=pointer]:
+            - /url: /th/admin/villas
+          - link "การจอง" [ref=f3e55] [cursor=pointer]:
+            - /url: /th/admin/bookings
+          - link "ปฏิทินรวม" [ref=f3e59] [cursor=pointer]:
+            - /url: /th/admin/calendar
+          - link "จัดการนายหน้า" [ref=f3e62] [cursor=pointer]:
+            - /url: /th/admin/agents
+          - link "วันหยุด" [ref=f3e67] [cursor=pointer]:
+            - /url: /th/admin/holidays
+          - link "โปรโมชั่น" [ref=f3e74] [cursor=pointer]:
+            - /url: /th/admin/promotions
+          - link "ข้อความสอบถาม" [ref=f3e79] [cursor=pointer]:
+            - /url: /th/admin/inquiries
+          - link "รายงาน" [ref=f3e82] [cursor=pointer]:
+            - /url: /th/admin/reports
+          - link "ตั้งค่า" [ref=f3e85] [cursor=pointer]:
+            - /url: /th/admin/settings
+          - link "ผู้ใช้" [ref=f3e89] [cursor=pointer]:
+            - /url: /th/admin/users
+          - link "บันทึกการใช้งาน" [ref=f3e95] [cursor=pointer]:
+            - /url: /th/admin/audit
+      - generic [ref=f3e99]:
+        - banner [ref=f3e100]:
+          - generic [ref=f3e101]: ผู้ดูแลระบบ
+          - generic [ref=f3e102]:
+            - generic [ref=f3e103]: ภาษา
+            - combobox "ภาษา" [ref=f3e104]:
+              - option "ไทย" [selected]
+              - option "English"
+              - option "中文"
+          - radiogroup "สลับธีม" [ref=f3e105]:
+            - radio "สว่าง" [checked] [ref=f3e106]
+            - radio "มืด" [ref=f3e113]
+            - radio "ตามระบบ" [ref=f3e116]
+          - button "ออกจากระบบ" [ref=f3e120]
+        - main [ref=f3e125]:
+          - generic [ref=f3e126]:
+            - heading "ภาพรวม" [level=1] [ref=f3e127]
+            - paragraph [ref=f3e128]: Phase 6 fills this with KPI cards, revenue charts and the agent breakdown.
+  - button "Open Next.js Dev Tools" [ref=f3e29] [cursor=pointer]
+  - alert [ref=f3e129]: ภาพรวม

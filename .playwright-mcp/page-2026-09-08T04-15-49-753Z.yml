@@ -1,0 +1,78 @@
+- generic [ref=e1]:
+  - generic [active]:
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - navigation [ref=e38]:
+          - button [disabled] [ref=e39]:
+            - img "previous" [ref=e40]
+          - generic [ref=e42]:
+            - generic [ref=e43]: 1/
+            - generic [ref=e44]: "1"
+          - button [disabled] [ref=e45]:
+            - img "next" [ref=e46]
+        - generic [ref=e49]:
+          - generic "Latest available version is detected (16.3.4)." [ref=e52]: Next.js 16.3.4
+          - generic [ref=e53]: Turbopack
+      - dialog "Runtime UnrecognizedActionError" [ref=e55]:
+        - generic [ref=e58]:
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - generic [ref=e62]: Runtime UnrecognizedActionError
+              - generic [ref=e64]:
+                - button "Copy Error Info" [ref=e65] [cursor=pointer]
+                - link "Go to related documentation" [ref=e68] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/failed-to-find-server-action
+                - button "Attach Node.js inspector" [ref=e71] [cursor=pointer]
+            - generic [ref=e81]:
+              - text: "Server Action \"602bd1f40e75a6dfab11dee908e46256b249286b22\" was not found on the server. Read more:"
+              - link "https://nextjs.org/docs/messages/failed-to-find-server-action" [ref=e82] [cursor=pointer]:
+                - /url: https://nextjs.org/docs/messages/failed-to-find-server-action
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - paragraph [ref=e86]:
+                - generic [ref=e91]: src\app\(admin)\[locale]\admin\login\page.tsx (83:11) @ LoginPage
+                - button "Open in editor" [ref=e92] [cursor=pointer]
+              - generic [ref=e96]:
+                - generic [ref=e97]: "81 | ) : null}"
+                - generic [ref=e98]: 82 |
+                - generic [ref=e99]: "> 83 | <form action={authenticate} className=\"mt-5 space-y-4\">"
+                - generic [ref=e100]: "| ^"
+                - generic [ref=e101]: "84 | <input type=\"hidden\" name=\"callbackUrl\" value={callbackUrl ?? ''} />"
+                - generic [ref=e102]: 85 |
+                - generic [ref=e103]: "86 | <Field label={t('email')} htmlFor=\"email\" required>"
+            - generic [ref=e104]:
+              - generic [ref=e105]:
+                - paragraph [ref=e106]:
+                  - text: Call Stack
+                  - generic [ref=e107]: "3"
+                - button "Show 1 ignore-listed frame(s)" [ref=e108] [cursor=pointer]
+              - generic [ref=e111]:
+                - generic [ref=e112]: form
+                - text: <anonymous>
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - text: LoginPage
+                  - button "Open LoginPage in editor" [ref=e115] [cursor=pointer]
+                - text: src\app\(admin)\[locale]\admin\login\page.tsx (83:11)
+      - contentinfo [ref=e118]:
+        - region "Error feedback" [ref=e119]:
+          - paragraph [ref=e120]:
+            - link "Was this helpful?" [ref=e121] [cursor=pointer]:
+              - /url: https://nextjs.org/telemetry#error-feedback
+          - button "Mark as helpful" [ref=e122] [cursor=pointer]
+          - button "Mark as not helpful" [ref=e126] [cursor=pointer]
+    - generic [ref=e28] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e29]
+      - generic [ref=e129]:
+        - button "Open issues overlay" [ref=e130]:
+          - generic [ref=e131]:
+            - generic [aria-hidden] [ref=e132]: "0"
+            - generic [ref=e133]: "1"
+          - generic [ref=e134]: Issue
+        - button "Collapse issues badge" [ref=e135]
+  - generic [ref=e139]:
+    - heading "This page couldn’t load" [level=1] [ref=e142]
+    - paragraph [ref=e143]: Reload to try again, or go back.
+    - generic [ref=e144]:
+      - button "Reload" [ref=e146] [cursor=pointer]
+      - button "Back" [ref=e147] [cursor=pointer]

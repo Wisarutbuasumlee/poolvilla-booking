@@ -12,7 +12,8 @@
     "lineChat": "Ask on LINE",
     "call": "Call us",
     "viewDetail": "View details",
-    "seeAll": "See all"
+    "seeAll": "See all",
+    "signOut": "Sign out"
   },
   "label": {
     "zone": "Destination",

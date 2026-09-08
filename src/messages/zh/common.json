@@ -12,7 +12,8 @@
     "lineChat": "LINE 咨询",
     "call": "致电",
     "viewDetail": "查看详情",
-    "seeAll": "查看全部"
+    "seeAll": "查看全部",
+    "signOut": "退出登录"
   },
   "label": {
     "zone": "目的地",

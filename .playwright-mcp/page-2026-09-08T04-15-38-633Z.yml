@@ -1,0 +1,16 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - paragraph [ref=e3]: PoolVilla · admin
+    - generic [ref=e5]:
+      - generic [ref=e6]: PoolVilla
+      - generic [ref=e14]:
+        - heading "เข้าสู่ระบบหลังบ้าน" [level=1] [ref=e15]
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - generic [ref=e18]: อีเมล*
+            - textbox "อีเมล*" [active] [ref=e19]
+          - generic [ref=e20]:
+            - generic [ref=e21]: รหัสผ่าน*
+            - textbox "รหัสผ่าน*" [ref=e22]
+          - button "เข้าสู่ระบบ" [ref=e23]
+  - button "Open Next.js Dev Tools" [ref=e29] [cursor=pointer]
