@@ -104,6 +104,30 @@ const config = [
   },
 
   {
+    // Components take data as props. A client component that imports a model
+    // pulls Mongoose, and through it the MongoDB driver, into the browser
+    // bundle. The build then fails with "Can't resolve 'tls'" pointing at
+    // node_modules, which says nothing about the one import that caused it.
+    files: ['src/components/**/*.ts', 'src/components/**/*.tsx'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/lib/db', '@/lib/db/*', '@/lib/db/**', 'mongoose'],
+              // Type-only imports are erased and cannot reach the bundle.
+              allowTypeImports: true,
+              message:
+                'Components receive data as props. Query in a Server Component and pass the result down; shared constants belong in a dependency-free module such as @/lib/villas/constants.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
     files: ['**/*.test.ts', '**/*.test.tsx', 'scripts/**/*.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',

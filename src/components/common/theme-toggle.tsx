@@ -3,7 +3,7 @@
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useTranslations } from 'next-intl';
-
+import { useSyncExternalStore } from 'react';
 import { cn } from '@/lib/utils';
 
 const OPTIONS = [
@@ -12,18 +12,37 @@ const OPTIONS = [
   { value: 'system', Icon: Monitor },
 ] as const;
 
+const NO_SUBSCRIBE = () => () => {};
+
+/**
+ * True only after hydration has finished.
+ *
+ * React reads the server snapshot while hydrating and the client snapshot on
+ * every render after, which is precisely the guarantee needed here. Setting a
+ * flag in an effect would do the same thing but renders once with the wrong
+ * value first, and React 19 flags that pattern.
+ */
+function useHydrated(): boolean {
+  return useSyncExternalStore(
+    NO_SUBSCRIBE,
+    () => true,
+    () => false,
+  );
+}
+
 /**
  * Light, dark, or follow the system.
  *
- * There is no mounted guard here on purpose. next-themes reads the stored
- * choice in its own effect, so `theme` is undefined during SSR and on the
- * first client render alike: both produce the same markup and hydration
- * matches. The selected state then fills in without the header resizing,
- * which a placeholder-until-mounted version cannot avoid.
+ * next-themes resolves the stored choice from a blocking script before React
+ * hydrates, so reading it during the first render would disagree with the
+ * server markup. Rather than suppressing that warning, nothing is marked
+ * selected until hydration is done: the buttons are always in the same place
+ * and at the same size, so the only thing that appears is the highlight.
  */
 export function ThemeToggle() {
   const t = useTranslations('common.theme');
   const { theme, setTheme } = useTheme();
+  const hydrated = useHydrated();
 
   return (
     <div
@@ -31,25 +50,28 @@ export function ThemeToggle() {
       role="radiogroup"
       aria-label={t('toggle')}
     >
-      {OPTIONS.map(({ value, Icon }) => (
-        <button
-          key={value}
-          type="button"
-          role="radio"
-          aria-checked={theme === value}
-          aria-label={t(value)}
-          title={t(value)}
-          onClick={() => setTheme(value)}
-          className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] transition-colors',
-            theme === value
-              ? 'bg-[var(--bg-sunken)] text-[var(--fg-default)]'
-              : 'text-[var(--fg-subtle)] hover:text-[var(--fg-default)]',
-          )}
-        >
-          <Icon className="h-4 w-4" aria-hidden />
-        </button>
-      ))}
+      {OPTIONS.map(({ value, Icon }) => {
+        const active = hydrated && theme === value;
+        return (
+          <button
+            key={value}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            aria-label={t(value)}
+            title={t(value)}
+            onClick={() => setTheme(value)}
+            className={cn(
+              'flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] transition-colors',
+              active
+                ? 'bg-[var(--bg-sunken)] text-[var(--fg-default)]'
+                : 'text-[var(--fg-subtle)] hover:text-[var(--fg-default)]',
+            )}
+          >
+            <Icon className="h-4 w-4" aria-hidden />
+          </button>
+        );
+      })}
     </div>
   );
 }

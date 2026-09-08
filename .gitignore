@@ -60,3 +60,6 @@ Thumbs.db
 .env.production
 nginx/certs/*
 !nginx/certs/.gitkeep
+
+# playwright mcp artefacts
+.playwright-mcp/

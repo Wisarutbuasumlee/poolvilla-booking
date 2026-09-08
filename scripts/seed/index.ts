@@ -20,6 +20,7 @@ import { VillaAgentModel } from '../../src/lib/db/models/villa-agent';
 import { addDays, asDateKey, baht, quote, todayBangkok } from '../../src/lib/pricing';
 import type { DateKey, RateCard, Satang } from '../../src/lib/pricing';
 import { buildHolidays, LUNAR_HOLIDAYS_TO_ENTER } from './holidays';
+import { writePlaceholderImages } from './placeholders';
 import { SEED_AGENTS, SEED_VILLAS } from './villas';
 
 /**
@@ -130,8 +131,13 @@ async function main() {
   log('users', '1 superadmin');
 
   // --- villas --------------------------------------------------------------
-  const villaDocs = await VillaModel.insertMany(
-    SEED_VILLAS.map((villa) => ({
+  // Real files on disk, so the gallery and the cards have something with
+  // genuine dimensions to lay out against. They are flat tinted panels with
+  // the villa code printed on them, and every record carries isSynthetic, so
+  // nothing here can pass for a photograph of a real house.
+  const villaPayloads = [];
+  for (const villa of SEED_VILLAS) {
+    villaPayloads.push({
       ...villa,
       location: {
         ...villa.location,
@@ -139,18 +145,14 @@ async function main() {
         distanceToBeachKm:
           villa.location.distanceToBeachKm >= 999 ? undefined : villa.location.distanceToBeachKm,
       },
-      images: Array.from({ length: villa.imageCount }, (_, i) => ({
-        url: `/api/uploads/placeholder/${villa.code}-${i + 1}.webp`,
-        category: i === 0 ? 'cover' : i < 3 ? 'pool' : i < 6 ? 'bedroom' : 'exterior',
-        order: i,
-        isCover: i === 0,
-        // Nothing here is a photograph of a real house.
-        isSynthetic: true,
-      })),
+      images: await writePlaceholderImages(villa.code, villa.imageCount),
       createdBy: admin._id,
-    })),
-  );
+    });
+  }
+
+  const villaDocs = await VillaModel.insertMany(villaPayloads);
   log('villas', `${villaDocs.length}, including DV-2685 from the spec`);
+  log('images', `${villaPayloads.reduce((n, v) => n + v.images.length, 0)} placeholder renditions written`);
 
   // --- agents and their markups -------------------------------------------
   const agentDocs = await AgentModel.insertMany(

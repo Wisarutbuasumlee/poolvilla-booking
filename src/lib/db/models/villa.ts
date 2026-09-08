@@ -1,4 +1,5 @@
 import mongoose, { Schema, type InferSchemaType, type Model } from 'mongoose';
+import { AMENITIES, IMAGE_CATEGORIES } from '@/lib/villas/constants';
 import {
   DayRatesSchema,
   LocalizedTextSchema,
@@ -18,32 +19,10 @@ import {
  * moves every agent's price with it. See docs/DECISIONS.md D-001.
  */
 
-export const AMENITIES = [
-  'karaoke',
-  'snooker',
-  'pool_slide',
-  'disco_light',
-  'bbq_grill',
-  'wifi',
-  'pool_floats',
-  'extra_mattress',
-  'water_heater',
-  'life_jacket_kids',
-  'projector',
-  'kids_pool',
-  'jacuzzi',
-  'garden',
-] as const;
-
-export const IMAGE_CATEGORIES = [
-  'cover',
-  'pool',
-  'bedroom',
-  'kitchen',
-  'living',
-  'bathroom',
-  'exterior',
-] as const;
+// Re-exported so existing server imports keep working. The values live in a
+// dependency-free module because client components need them too, and reaching
+// them through this file would drag Mongoose into the browser bundle.
+export { AMENITIES, IMAGE_CATEGORIES } from '@/lib/villas/constants';
 
 const BedSchema = new Schema(
   {

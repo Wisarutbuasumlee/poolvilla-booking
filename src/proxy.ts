@@ -104,15 +104,16 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     return NextResponse.rewrite(new URL(`/${localeHint}/_404`, request.url), { status: 404 });
   }
 
-  if (isAdminHost && looksLikeAdminPath) {
-    // On the admin host `/admin` is already implied. Typing it would produce
-    // /th/admin/admin after the rewrite, so fold it away once.
-    const stripped = pathname.replace(new RegExp(`^(/(?:${LOCALE_SEGMENT}))?/admin`), '$1') || '/';
-    return withRefCookie(
-      NextResponse.redirect(new URL(stripped + request.nextUrl.search, request.url)),
-      searchParams,
-    );
-  }
+  // On the admin host, /{locale}/admin/... is accepted as-is rather than
+  // folded away.
+  //
+  // It is the shape every Link and every redirect in the app produces, and
+  // those are resolved on the client, where this function never runs. Folding
+  // it here only worked on a full page load, so the URL bar drifted from the
+  // canonical shape after any in-app navigation. Accepting both shapes costs
+  // one duplicate URL on a surface that is never indexed, and removes an
+  // entire class of "works on refresh, not on click" bugs.
+  const alreadyInternal = isAdminHost && looksLikeAdminPath;
 
   // --- Step 2: intl decides the locale, on the original request.
   const intlResponse = intlMiddleware(request);
@@ -156,7 +157,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
 
   // --- Step 4: the rewrite, applied last so it carries intl's state forward.
-  if (isAdminHost) {
+  if (isAdminHost && !alreadyInternal) {
     const rest = pathname.slice(`/${locale}`.length);
     const target = new URL(`/${locale}/admin${rest}`, request.url);
     target.search = request.nextUrl.search;
