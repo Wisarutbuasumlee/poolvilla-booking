@@ -64,21 +64,42 @@ afterAll(async () => {
   }
 });
 
-function requireDb() {
-  if (!connected) {
-    throw new Error(
-      'MongoDB is not reachable. Run `npm run db:up` before `npm test`, or unset MONGODB_URI to skip.',
+/**
+ * Skips when MongoDB is not running, fails when CI says it must be.
+ *
+ * A developer with the containers stopped should get a clear notice, not
+ * eighteen red tests that look like a broken booking system. CI sets
+ * REQUIRE_DB=true, where a silent skip would be the worse failure: the whole
+ * point of this file is that it runs against a real unique index.
+ */
+function requireDb(ctx: { skip: () => void }) {
+  if (connected) return;
+
+  if (process.env.REQUIRE_DB === 'true') {
+    throw new Error('REQUIRE_DB is set but MongoDB is not reachable. Run npm run db:up.');
+  }
+
+  if (!warned) {
+    warned = true;
+    console.warn(
+      '\n  Skipping the availability integration tests: MongoDB is not reachable.' +
+        '\n  Run `npm run db:up` to exercise the double-booking protection.\n',
     );
   }
+
+  // Vitest treats a thrown skip from within a test as a skip, not a failure.
+  ctx.skip();
 }
+
+let warned = false;
 
 function hold(checkIn: DateKey, checkOut: DateKey, villaId = VILLA) {
   return holdNights({ villaId, checkIn, checkOut, holdMinutes: 30, source: 'web' });
 }
 
 describe('holdNights', () => {
-  it('claims one document per night and leaves the checkout date free', async () => {
-    requireDb();
+  it('claims one document per night and leaves the checkout date free', async (ctx) => {
+    requireDb(ctx);
     const result = await hold(MON, THU);
 
     expect(result.ok).toBe(true);
@@ -87,13 +108,13 @@ describe('holdNights', () => {
     expect(rows.every((r) => r.status === 'held')).toBe(true);
   });
 
-  it('refuses a zero-night range', async () => {
-    requireDb();
+  it('refuses a zero-night range', async (ctx) => {
+    requireDb(ctx);
     expect(await hold(MON, MON)).toEqual({ ok: false, reason: 'INVALID_RANGE' });
   });
 
-  it('lets exactly one of twenty concurrent holds win the same nights', async () => {
-    requireDb();
+  it('lets exactly one of twenty concurrent holds win the same nights', async (ctx) => {
+    requireDb(ctx);
 
     const attempts = await Promise.all(Array.from({ length: 20 }, () => hold(MON, THU)));
 
@@ -108,8 +129,8 @@ describe('holdNights', () => {
     expect(owners.size).toBe(1);
   });
 
-  it('leaves nothing behind when a hold only partly overlaps and loses', async () => {
-    requireDb();
+  it('leaves nothing behind when a hold only partly overlaps and loses', async (ctx) => {
+    requireDb(ctx);
     const first = await hold(MON, THU);
     expect(first.ok).toBe(true);
 
@@ -123,8 +144,8 @@ describe('holdNights', () => {
     expect(rows.map((r) => r.dateKey).sort()).toEqual([MON, TUE, WED]);
   });
 
-  it('allows same-day turnover', async () => {
-    requireDb();
+  it('allows same-day turnover', async (ctx) => {
+    requireDb(ctx);
     // Out on Wednesday, in on Wednesday. Neither booking holds that date.
     expect((await hold(MON, WED)).ok).toBe(true);
     expect((await hold(WED, FRI)).ok).toBe(true);
@@ -133,14 +154,14 @@ describe('holdNights', () => {
     expect(rows).toHaveLength(4);
   });
 
-  it('does not block a different villa', async () => {
-    requireDb();
+  it('does not block a different villa', async (ctx) => {
+    requireDb(ctx);
     expect((await hold(MON, THU)).ok).toBe(true);
     expect((await hold(MON, THU, OTHER_VILLA)).ok).toBe(true);
   });
 
-  it('steals a hold that has already expired', async () => {
-    requireDb();
+  it('steals a hold that has already expired', async (ctx) => {
+    requireDb(ctx);
     const first = await hold(MON, THU);
     expect(first.ok).toBe(true);
 
@@ -159,8 +180,8 @@ describe('holdNights', () => {
     }
   });
 
-  it('cannot take a night that is already booked', async () => {
-    requireDb();
+  it('cannot take a night that is already booked', async (ctx) => {
+    requireDb(ctx);
     const first = await hold(MON, THU);
     if (!first.ok) throw new Error('setup failed');
     await confirmHold(first.bookingId);
@@ -174,8 +195,8 @@ describe('holdNights', () => {
 });
 
 describe('confirmHold and releaseHold', () => {
-  it('turns held nights into booked nights and drops the expiry', async () => {
-    requireDb();
+  it('turns held nights into booked nights and drops the expiry', async (ctx) => {
+    requireDb(ctx);
     const result = await hold(MON, THU);
     if (!result.ok) throw new Error('setup failed');
 
@@ -186,13 +207,13 @@ describe('confirmHold and releaseHold', () => {
     expect(rows.every((r) => r.holdExpiresAt == null)).toBe(true);
   });
 
-  it('reports false when the hold is already gone', async () => {
-    requireDb();
+  it('reports false when the hold is already gone', async (ctx) => {
+    requireDb(ctx);
     expect(await confirmHold(new Types.ObjectId())).toBe(false);
   });
 
-  it('frees the nights on release and lets somebody else take them', async () => {
-    requireDb();
+  it('frees the nights on release and lets somebody else take them', async (ctx) => {
+    requireDb(ctx);
     const first = await hold(MON, THU);
     if (!first.ok) throw new Error('setup failed');
 
@@ -201,8 +222,8 @@ describe('confirmHold and releaseHold', () => {
     expect((await hold(MON, THU)).ok).toBe(true);
   });
 
-  it('never releases a confirmed booking', async () => {
-    requireDb();
+  it('never releases a confirmed booking', async (ctx) => {
+    requireDb(ctx);
     const result = await hold(MON, THU);
     if (!result.ok) throw new Error('setup failed');
     await confirmHold(result.bookingId);
@@ -213,8 +234,8 @@ describe('confirmHold and releaseHold', () => {
 });
 
 describe('reading the calendar', () => {
-  it('treats an expired hold as available, so a dead sweeper blocks nobody', async () => {
-    requireDb();
+  it('treats an expired hold as available, so a dead sweeper blocks nobody', async (ctx) => {
+    requireDb(ctx);
     const result = await hold(MON, THU);
     if (!result.ok) throw new Error('setup failed');
 
@@ -229,16 +250,16 @@ describe('reading the calendar', () => {
     expect((await getBlockedVillaIds([VILLA], MON, THU)).size).toBe(0);
   });
 
-  it('finds every villa that cannot take the stay in one query', async () => {
-    requireDb();
+  it('finds every villa that cannot take the stay in one query', async (ctx) => {
+    requireDb(ctx);
     expect((await hold(MON, THU)).ok).toBe(true);
 
     const blocked = await getBlockedVillaIds([VILLA, OTHER_VILLA], MON, THU);
     expect([...blocked]).toEqual([VILLA.toString()]);
   });
 
-  it('excludes the checkout date when checking a range', async () => {
-    requireDb();
+  it('excludes the checkout date when checking a range', async (ctx) => {
+    requireDb(ctx);
     // Only Wednesday is held.
     expect((await hold(WED, THU)).ok).toBe(true);
 
@@ -250,8 +271,8 @@ describe('reading the calendar', () => {
 });
 
 describe('manual blocking', () => {
-  it('blocks free dates and reports them', async () => {
-    requireDb();
+  it('blocks free dates and reports them', async (ctx) => {
+    requireDb(ctx);
     const result = await blockDates({
       villaId: VILLA,
       dates: [MON, TUE],
@@ -264,8 +285,8 @@ describe('manual blocking', () => {
     expect(result.skipped).toEqual([]);
   });
 
-  it('refuses to block over a confirmed booking', async () => {
-    requireDb();
+  it('refuses to block over a confirmed booking', async (ctx) => {
+    requireDb(ctx);
     const booking = await hold(MON, THU);
     if (!booking.ok) throw new Error('setup failed');
     await confirmHold(booking.bookingId);
@@ -283,8 +304,8 @@ describe('manual blocking', () => {
     expect(await AvailabilityModel.countDocuments({ status: 'booked' })).toBe(3);
   });
 
-  it('unblocks only manual blocks', async () => {
-    requireDb();
+  it('unblocks only manual blocks', async (ctx) => {
+    requireDb(ctx);
     await blockDates({ villaId: VILLA, dates: [MON], status: 'blocked', source: 'admin' });
     const booking = await hold(TUE, WED);
     if (!booking.ok) throw new Error('setup failed');

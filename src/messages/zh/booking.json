@@ -10,7 +10,9 @@
   "lookup": {
     "title": "查询预订",
     "bookingNo": "预订编号",
-    "phone": "预订手机号"
+    "phone": "预订手机号",
+    "submit": "查询",
+    "notFound": "没有匹配该编号与手机号的预订。"
   },
   "summary": {
     "accommodation": "住宿费",
@@ -21,5 +23,48 @@
     "deposit": "订金",
     "balance": "尾款",
     "damageDeposit": "损坏押金，退房时退还"
+  },
+  "checkIn": "入住",
+  "checkOut": "退房",
+  "adults": "成人",
+  "children": "儿童",
+  "childrenHint": "包含所有年龄的儿童",
+  "childrenUnder10": "其中十岁以下",
+  "addOns": "附加服务",
+  "name": "预订人姓名",
+  "phone": "手机号",
+  "lineId": "LINE ID",
+  "email": "邮箱",
+  "promoCode": "优惠码",
+  "acceptTerms": "我接受预订条款与取消政策",
+  "submit": "预订并前往付款",
+  "submitting": "保存中",
+  "unavailable": "{dates} 已被预订，请另选日期。",
+  "priceChanged": "总价已变为 {total} 铢，请确认后重新预订。",
+  "minNightsViolation": "此时段最少入住 {n} 晚",
+  "overCapacity": "本别墅最多容纳 {n} 人",
+  "promoNotApplied": "该优惠码不适用于本次预订",
+  "pay": {
+    "title": "支付订金",
+    "holdRemaining": "为您保留日期还剩",
+    "expired": "保留时间已过，请重新预订。",
+    "transferTo": "转账至",
+    "promptpay": "PromptPay",
+    "scanToPay": "扫码支付",
+    "amount": "应转金额",
+    "uploadSlip": "上传付款凭证",
+    "uploading": "上传中",
+    "uploaded": "已收到凭证，工作人员将核对后确认。",
+    "slipHint": "请拍清楚凭证上的金额与时间。"
+  },
+  "status": {
+    "awaiting_payment": "待付订金",
+    "pending": "处理中",
+    "confirmed": "已确认",
+    "checked_in": "已入住",
+    "completed": "已完成",
+    "cancelled": "已取消",
+    "no_show": "未入住",
+    "expired": "已过期"
   }
 }

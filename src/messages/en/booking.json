@@ -10,7 +10,9 @@
   "lookup": {
     "title": "Check a booking",
     "bookingNo": "Booking number",
-    "phone": "Phone used to book"
+    "phone": "Phone used to book",
+    "submit": "Check",
+    "notFound": "No booking matches that number and phone."
   },
   "summary": {
     "accommodation": "Accommodation",
@@ -21,5 +23,48 @@
     "deposit": "Deposit",
     "balance": "Balance due",
     "damageDeposit": "Damage deposit, refunded at check-out"
+  },
+  "checkIn": "Check in",
+  "checkOut": "Check out",
+  "adults": "Adults",
+  "children": "Children",
+  "childrenHint": "Children of any age",
+  "childrenUnder10": "Of those, under ten",
+  "addOns": "Add-ons",
+  "name": "Name",
+  "phone": "Phone",
+  "lineId": "LINE ID",
+  "email": "Email",
+  "promoCode": "Promo code",
+  "acceptTerms": "I accept the booking terms and the cancellation policy",
+  "submit": "Book and go to payment",
+  "submitting": "Saving",
+  "unavailable": "{dates} has been taken. Please choose other dates.",
+  "priceChanged": "The total is now {total} baht. Please check it and book again.",
+  "minNightsViolation": "This period needs at least {n} nights",
+  "overCapacity": "This villa takes at most {n} guests",
+  "promoNotApplied": "That promo code does not apply to this booking",
+  "pay": {
+    "title": "Pay the deposit",
+    "holdRemaining": "These dates are held for",
+    "expired": "The hold has expired. Please start a new booking.",
+    "transferTo": "Transfer to",
+    "promptpay": "PromptPay",
+    "scanToPay": "Scan to pay",
+    "amount": "Amount to transfer",
+    "uploadSlip": "Upload the slip",
+    "uploading": "Uploading",
+    "uploaded": "Slip received. Our staff will check it and confirm.",
+    "slipHint": "Photograph the slip so the amount and time are readable."
+  },
+  "status": {
+    "awaiting_payment": "Awaiting deposit",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "checked_in": "Checked in",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "no_show": "No show",
+    "expired": "Expired"
   }
 }

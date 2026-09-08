@@ -40,5 +40,6 @@
   "minNights": "最少入住 {n} 晚",
   "yourAgent": "此价格来自",
   "full": "已订",
-  "additionalNotes": "其他说明"
+  "additionalNotes": "其他说明",
+  "bookNow": "立即预订"
 }

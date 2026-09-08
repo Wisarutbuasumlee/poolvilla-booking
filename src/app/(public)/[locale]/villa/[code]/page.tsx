@@ -23,6 +23,9 @@ import { getBlockedDates } from '@/lib/availability/service';
 import { addDays, asDateKey, resolveNight, todayBangkok } from '@/lib/pricing';
 import { AvailabilityCalendar, type CalendarNight } from '@/components/public/availability-calendar';
 import { Badge, Card, Money, Skeleton } from '@/components/ui/surface';
+import { buttonStyles } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
+import { cn } from '@/lib/utils';
 
 export { generateStaticParams } from '@/i18n/static-params';
 
@@ -262,7 +265,7 @@ export default async function VillaPage({
         {/* Everything below depends on who referred the visitor. */}
         <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
           <Suspense fallback={<Skeleton className="h-64 w-full rounded-[var(--radius-lg)]" />}>
-            <RatePanel villa={villa as unknown as VillaRateSource} />
+            <RatePanel villa={villa as unknown as VillaRateSource} code={villa.code} />
           </Suspense>
         </aside>
       </div>
@@ -280,10 +283,10 @@ export default async function VillaPage({
 }
 
 /** The rate table and the agent whose prices these are. */
-async function RatePanel({ villa }: { villa: VillaRateSource }) {
+async function RatePanel({ villa, code }: { villa: VillaRateSource; code: string }) {
   const t = await getTranslations('villa');
   const context = await getPricingContext();
-  const card = await getRateCard(villa, context);
+  const card = { ...(await getRateCard(villa, context)), villaCode: code };
 
   const rows = [
     { key: 'sunThu', value: card.base.sunThu + card.markup.sunThu },
@@ -310,6 +313,16 @@ async function RatePanel({ villa }: { villa: VillaRateSource }) {
           {t('minNights', { n: card.minNights })}
         </p>
       ) : null}
+
+      {/* The primary action on this page. It carries no dates: the booking
+          page asks for them and prices them with the same engine, so there is
+          nowhere for a date chosen here and a date priced there to diverge. */}
+      <Link
+        href={`/booking/${card.villaCode}`}
+        className={cn(buttonStyles({ size: 'lg', block: true }), 'mt-4')}
+      >
+        {t('bookNow')}
+      </Link>
 
       {context.agentName ? (
         <p className="mt-4 border-t border-[var(--border-default)] pt-3 text-sm">

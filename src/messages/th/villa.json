@@ -40,5 +40,6 @@
   "minNights": "เข้าพักขั้นต่ำ {n} คืน",
   "yourAgent": "ราคานี้จากนายหน้า",
   "full": "เต็ม",
-  "additionalNotes": "รายละเอียดเพิ่มเติม"
+  "additionalNotes": "รายละเอียดเพิ่มเติม",
+  "bookNow": "จองเลย"
 }
