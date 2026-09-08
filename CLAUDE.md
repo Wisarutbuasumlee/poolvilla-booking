@@ -49,9 +49,10 @@ TypeScript ล็อกที่ 5.9.3 เพราะ typescript-eslint ยั�
 ## 4. คำสั่ง
 
 ```bash
-npm run db:up        # docker compose ยก mongo, mongo-express, redis
-npm run dev          # แอปที่ localhost:3000 และ admin.localhost:3000
-npm run seed         # ข้อมูลตัวอย่าง
+npm run dev          # ยก container, seed ถ้าฐานข้อมูลว่าง, แล้วสตาร์ตแอป
+npm run dev:next     # เฉพาะแอป ไม่ยุ่งกับ container
+npm run db:up        # ยก container อย่างเดียว
+npm run seed         # ล้างแล้วสร้างข้อมูลตัวอย่างใหม่ ระวัง ข้อมูลเดิมหายหมด
 npm run build        # ต้องผ่านก่อนปิดทุก Phase
 npm run lint         # ต้องผ่านก่อนปิดทุก Phase
 npm run typecheck

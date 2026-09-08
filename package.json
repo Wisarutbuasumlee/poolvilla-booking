@@ -7,7 +7,7 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/dev.mjs",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
@@ -27,7 +27,8 @@
     "prod:up": "docker compose -f docker-compose.prod.yml up -d",
     "prod:down": "docker compose -f docker-compose.prod.yml down",
     "prod:logs": "docker compose -f docker-compose.prod.yml logs -f --tail=100",
-    "db:check": "tsx scripts/db-check.ts"
+    "db:check": "tsx scripts/db-check.ts",
+    "dev:next": "next dev"
   },
   "dependencies": {
     "@auth/core": "0.41.3",
