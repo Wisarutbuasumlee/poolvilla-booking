@@ -75,10 +75,10 @@ export async function holdNights(
         villaId: request.villaId,
         dateKey,
         $or: [
-          { status: 'available' },
+          { status: 'available' as const },
           // Stealing an expired hold is correct: the other party's window is
           // over, and waiting for the sweeper would block a real guest.
-          { status: 'held', holdExpiresAt: { $lt: now } },
+          { status: 'held' as const, holdExpiresAt: { $lt: now } },
         ],
       },
       update: {
@@ -140,7 +140,7 @@ async function findConflicts(
   const rows = await AvailabilityModel.find(
     {
       villaId,
-      dateKey: { $in: nights as string[] },
+      dateKey: { $in: [...nights] as string[] },
       $or: [
         { status: { $in: BLOCKING } },
         { status: 'held', holdExpiresAt: { $gt: new Date() } },
@@ -300,7 +300,7 @@ export async function unblockDates(
   const result = await AvailabilityModel.deleteMany(
     {
       villaId,
-      dateKey: { $in: dates as string[] },
+      dateKey: { $in: [...dates] as string[] },
       status: { $in: ['blocked', 'maintenance', 'available'] },
     },
     session ? { session } : {},
