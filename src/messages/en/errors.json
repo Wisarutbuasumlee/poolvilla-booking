@@ -5,7 +5,8 @@
   },
   "serverError": {
     "title": "Something broke",
-    "body": "Try again. If it keeps happening, contact us."
+    "body": "Try again. If it keeps happening, contact us.",
+    "retry": "Try again"
   },
   "forbidden": {
     "title": "No access",

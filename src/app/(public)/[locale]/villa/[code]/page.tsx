@@ -23,6 +23,7 @@ import { getBlockedDates } from '@/lib/availability/service';
 import { addDays, asDateKey, resolveNight, todayBangkok } from '@/lib/pricing';
 import { AvailabilityCalendar, type CalendarNight } from '@/components/public/availability-calendar';
 import { Badge, Card, Money, Skeleton } from '@/components/ui/surface';
+import { jsonLdScript, villaJsonLd } from '@/lib/seo/structured-data';
 import { buttonStyles } from '@/components/ui/button';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
@@ -45,16 +46,33 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: Locale; code: string }>;
 }): Promise<Metadata> {
-  const { code } = await params;
+  const { locale, code } = await params;
   const villa = await getVillaByCode(code);
   if (!villa) return {};
+
+  const cover = villa.images?.find((image) => image.isCover) ?? villa.images?.[0];
 
   return {
     title: villa.name?.th ?? villa.code,
     description: villa.description?.th ?? undefined,
-    // The query string carries the referral, which must never become the
-    // canonical URL of the page.
-    alternates: { canonical: `/villa/${villa.code}` },
+    alternates: {
+      // The query string carries the referral, which must never become the
+      // canonical URL: every agent's link would otherwise claim to be a
+      // different page for the same house.
+      canonical: `/${locale}/villa/${villa.code}`,
+      languages: {
+        th: `/th/villa/${villa.code}`,
+        en: `/en/villa/${villa.code}`,
+        zh: `/zh/villa/${villa.code}`,
+      },
+    },
+    openGraph: {
+      type: 'website',
+      title: villa.name?.th ?? villa.code,
+      description: villa.description?.th ?? undefined,
+      // Shared into a LINE group, this image is the whole preview.
+      images: cover ? [{ url: cover.url }] : undefined,
+    },
   };
 }
 
@@ -75,8 +93,35 @@ export default async function VillaPage({
   const images = [...(villa.images ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   const cover = images.find((image) => image.isCover) ?? images[0];
 
+  const structuredData = villaJsonLd(
+    {
+      code: villa.code,
+      name: villa.name?.th ?? villa.code,
+      description: villa.description?.th ?? undefined,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/${locale}/villa/${villa.code}`,
+      // Placeholder art is excluded. Handing a search engine a picture of a
+      // house that does not exist is the one claim here that would matter.
+      images: images.filter((image) => !image.isSynthetic).map((image) => image.url),
+      province: villa.location?.province,
+      zone: villa.location?.zone,
+      latitude: villa.location?.latitude ?? undefined,
+      longitude: villa.location?.longitude ?? undefined,
+      bedrooms: villa.capacity?.bedrooms,
+      maxGuests: (villa.capacity?.baseGuests ?? 0) + (villa.capacity?.maxExtraGuests ?? 0),
+      // The company's base rate, never the referring agent's price.
+      basePriceSatang: villa.basePricing?.sunThu,
+      amenities: villa.amenities as string[] | undefined,
+    },
+    locale,
+  );
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(structuredData) }}
+      />
+
       <header className="mb-4">
         <div className="flex flex-wrap items-center gap-2">
           <span className="tnum text-sm text-[var(--fg-muted)]">{villa.code}</span>

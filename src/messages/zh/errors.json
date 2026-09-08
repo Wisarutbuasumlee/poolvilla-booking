@@ -5,7 +5,8 @@
   },
   "serverError": {
     "title": "系统出错",
-    "body": "请重试。如果持续出现，请联系我们。"
+    "body": "请重试。如果持续出现，请联系我们。",
+    "retry": "重试"
   },
   "forbidden": {
     "title": "无权访问",

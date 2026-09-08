@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 
 import { ThemeProvider } from '@/components/common/theme-provider';
 import { ContactBar } from '@/components/public/contact-bar';
+import { SiteFooter } from '@/components/public/site-footer';
 import { SiteHeader } from '@/components/public/site-header';
 import { fontClassNames } from '@/i18n/fonts';
 import { routing, type Locale } from '@/i18n/routing';
@@ -52,6 +53,9 @@ export default async function PublicRootLayout({
   // this whole subtree to render dynamically.
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: 'common' });
+  const skipLabel = t('skipToContent');
+
   return (
     <html lang={locale} className={fontClassNames(locale)} suppressHydrationWarning>
       <body className="min-h-dvh antialiased">
@@ -62,8 +66,20 @@ export default async function PublicRootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
+            {/* First thing in the tab order. Every page here starts with a
+                header and a search box, and a keyboard user should not have to
+                pass through them to reach the villa they came for. */}
+            <a
+              href="#content"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[var(--radius-md)] focus:bg-[var(--bg-surface)] focus:px-4 focus:py-2 focus:shadow-[var(--shadow-float)]"
+            >
+              {skipLabel}
+            </a>
+
             <SiteHeader />
-            {children}
+            <div id="content">{children}</div>
+            <SiteFooter />
+
             {/* Reachable from every page. Most Thai guests decide on LINE,
                 and a contact button that scrolls away is a lost booking. */}
             <ContactBar />

@@ -8,7 +8,7 @@ import type { Locale } from '@/i18n/routing';
  * Adding a namespace means adding it here and creating the file in all three
  * locales. Thai is authoritative; en and zh fall back to it key by key.
  */
-export const NAMESPACES = ['common', 'home', 'villa', 'booking', 'admin', 'errors', 'search', 'agent'] as const;
+export const NAMESPACES = ['common', 'home', 'villa', 'booking', 'admin', 'errors', 'search', 'agent', 'content', 'footer'] as const;
 
 export type Namespace = (typeof NAMESPACES)[number];
 

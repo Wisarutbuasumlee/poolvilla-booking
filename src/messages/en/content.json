@@ -1,0 +1,66 @@
+{
+  "about": {
+    "title": "About us",
+    "body": [
+      "We rent private pool villas by the night, mainly in Pattaya and Jomtien, with houses in Hua Hin, Khao Yai and Phuket.",
+      "Every villa listed here is one we manage. The availability you see is the live calendar our staff and in-network agents work from, not a copy updated later.",
+      "The prices you see depend on the link you arrived through. Following an agent’s link shows that agent’s prices and puts you in touch with them directly."
+    ]
+  },
+  "contact": {
+    "title": "Contact us",
+    "body": [
+      "Ask about dates, prices or more photos. LINE or phone, any day."
+    ]
+  },
+  "faq": {
+    "title": "Frequently asked",
+    "body": [],
+    "items": [
+      {
+        "q": "How do I book?",
+        "a": "Choose a villa and your dates, fill in your details, and the dates are held for thirty minutes. Transfer the deposit, upload the slip, and our staff check it and confirm."
+      },
+      {
+        "q": "How much is the deposit?",
+        "a": "Thirty per cent of the total, with the balance due on arrival. A few villas differ; the real figure is shown before you book."
+      },
+      {
+        "q": "Can I cancel?",
+        "a": "The deposit is not refundable once paid. To move your dates, contact us and we will see what is possible."
+      },
+      {
+        "q": "What is the damage deposit?",
+        "a": "It is held separately from the rental, is not part of the total, and is returned at check-out if nothing is damaged."
+      },
+      {
+        "q": "How are children counted?",
+        "a": "Children under ten sharing with a guardian stay free up to each villa’s quota. Beyond that, the extra-guest fee applies per person per night."
+      },
+      {
+        "q": "What are the check-in times?",
+        "a": "Usually 2pm in and before noon out. Each villa’s actual times are on its page."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Booking terms",
+    "body": [
+      "A booking is complete when the deposit is paid and our staff confirm it. Before that the dates are only held, and the hold expires.",
+      "The price on your confirmed booking is the price that binds, even if the rate on the site changes afterwards.",
+      "Guests follow each villa’s house rules as published on its page, including the maximum number of guests, the pet policy and the noise policy."
+    ]
+  },
+  "privacy": {
+    "title": "Privacy",
+    "body": [
+      "We keep your name, phone number, email and LINE ID to confirm the booking and to reach you during your stay. Nothing else.",
+      "Payment slips are kept to verify payment. They are re-encoded before storage, which removes the location data a phone photograph carries.",
+      "We do not sell or pass your details to third parties. An agent you reached through a referral link sees only bookings made through their own link.",
+      "To have your details deleted, contact us through any of the channels on the contact page."
+    ]
+  },
+  "cancellationPolicy": "Cancellation policy",
+  "phone": "Phone",
+  "email": "Email"
+}

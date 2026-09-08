@@ -44,5 +44,6 @@
     "slide": "Pool slide",
     "placeholder": "Placeholder",
     "forNights": "for {n} nights"
-  }
+  },
+  "skipToContent": "Skip to content"
 }

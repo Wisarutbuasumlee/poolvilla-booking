@@ -44,5 +44,6 @@
     "slide": "滑梯",
     "placeholder": "占位图",
     "forNights": "共 {n} 晚"
-  }
+  },
+  "skipToContent": "跳到主要内容"
 }
