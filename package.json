@@ -21,7 +21,12 @@
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:build": "docker build --target app -t thaics/poolvilla-app:latest . && docker build --target web -t thaics/poolvilla-web:latest .",
+    "docker:push": "docker push thaics/poolvilla-app:latest && docker push thaics/poolvilla-web:latest",
+    "prod:up": "docker compose -f docker-compose.prod.yml up -d",
+    "prod:down": "docker compose -f docker-compose.prod.yml down",
+    "prod:logs": "docker compose -f docker-compose.prod.yml logs -f --tail=100"
   },
   "dependencies": {
     "@auth/core": "0.41.3",

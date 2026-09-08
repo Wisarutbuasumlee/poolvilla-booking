@@ -1,0 +1,166 @@
+# PoolVilla — the whole stack as containers: nginx + Next.js + MongoDB + Redis.
+#
+# Images are built and pushed from a dev machine:
+#   npm run docker:build && npm run docker:push
+# The server only runs:
+#   docker compose -f docker-compose.prod.yml pull
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# Put the variables from .env.production.example in a .env file next to this
+# one, and the TLS certificates in ./nginx/certs/ (both are git-ignored).
+#
+# Note the shape difference from docker-compose.yml: that file is DEV and runs
+# infrastructure only, with the app on the host under npm run dev. This file
+# runs everything, including the app.
+
+# Distinct project name. Sharing one with docker-compose.yml would make the
+# two stacks fight over the same volumes and containers: the production mongo
+# would adopt the development data directory, find it already initialised, and
+# skip creating the root user, which fails as an authentication error far from
+# the actual cause.
+name: poolvilla-prod
+
+services:
+  # -------------------------------------------------------------------------
+  # nginx — the only container with published ports
+  # -------------------------------------------------------------------------
+  nginx:
+    image: ${REGISTRY:-thaics}/poolvilla-web:${TAG:-latest}
+    restart: unless-stopped
+    ports:
+      # Overridable because a server often already runs something on 80.
+      # Behind another reverse proxy, set HTTP_PORT/HTTPS_PORT in .env.
+      - '${HTTP_PORT:-80}:80'
+      - '${HTTPS_PORT:-443}:443'
+    volumes:
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      app:
+        condition: service_healthy
+
+  # -------------------------------------------------------------------------
+  # app — Next.js standalone server
+  # -------------------------------------------------------------------------
+  app:
+    image: ${REGISTRY:-thaics}/poolvilla-app:${TAG:-latest}
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+
+      # Inside compose the app always talks to the services below, whatever
+      # .env happens to say.
+      MONGODB_URI: mongodb://${MONGO_USER:?put MONGO_USER in .env}:${MONGO_PASS:?put MONGO_PASS in .env}@mongodb:27017/${MONGO_DB:-poolvilla}?authSource=admin&replicaSet=rs0
+      REDIS_URL: redis://redis:6379
+
+      # Booking correctness does NOT depend on transactions; the unique index
+      # on {villaId, dateKey} is what prevents double booking. This turns on
+      # the extra safety layer, which the single-node replica set below
+      # supports. See docs/DECISIONS.md D-003.
+      MONGODB_TRANSACTIONS: 'true'
+
+      # Which hostname serves the back office. src/proxy.ts reads this, and
+      # nginx forwards the Host header unchanged so it sees the real value.
+      ADMIN_HOSTNAMES: ${ADMIN_HOSTNAMES:?put ADMIN_HOSTNAMES in .env, e.g. admin.example.com}
+      # Never true in production: it would expose the back office on the
+      # public hostname as well.
+      ENABLE_ADMIN_PATH_FALLBACK: 'false'
+
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?put NEXT_PUBLIC_SITE_URL in .env}
+      AUTH_SECRET: ${AUTH_SECRET:?generate with npx auth secret and put it in .env}
+      AUTH_TRUST_HOST: 'true'
+      CRON_SECRET: ${CRON_SECRET:?put CRON_SECRET in .env}
+    volumes:
+      # Uploaded villa photos. Losing this volume loses every photo, so it is
+      # the one thing besides the database that has to be in the backup.
+      - uploads:/app/storage/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # -------------------------------------------------------------------------
+  # mongo-keyfile — runs once, then exits
+  # -------------------------------------------------------------------------
+  # Turning on BOTH --auth and --replSet makes mongod require an internal-auth
+  # keyfile with 0400 permissions owned by the mongodb user. Generating it in a
+  # named volume from a container is the only way to get those permissions
+  # right on every host; a bind mount from Windows always comes out
+  # world-readable and mongod refuses to start.
+  mongo-keyfile:
+    image: mongo:7
+    restart: 'no'
+    command: >
+      bash -c "
+        if [ ! -s /keyfile/mongo.key ]; then
+          openssl rand -base64 756 > /keyfile/mongo.key;
+        fi;
+        chmod 400 /keyfile/mongo.key;
+        chown 999:999 /keyfile/mongo.key
+      "
+    volumes:
+      - mongo_keyfile:/keyfile
+
+  # -------------------------------------------------------------------------
+  # mongodb — single-node replica set, authenticated, never published
+  # -------------------------------------------------------------------------
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    command:
+      - '--replSet'
+      - 'rs0'
+      - '--bind_ip_all'
+      - '--auth'
+      - '--keyFile'
+      - '/keyfile/mongo.key'
+    environment:
+      # The official image only understands these names. They take effect on a
+      # FRESH volume only: changing them later needs either `down -v`, which
+      # wipes the data, or a password change inside mongosh.
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:?put MONGO_USER in .env}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS:?put MONGO_PASS in .env}
+    volumes:
+      - mongo_data:/data/db
+      - mongo_keyfile:/keyfile:ro
+    # No ports. The database is reachable only from this stack's network.
+    # To attach Compass, tunnel in with ssh -L instead of publishing it.
+    depends_on:
+      mongo-keyfile:
+        condition: service_completed_successfully
+    healthcheck:
+      # Initiates the replica set on first boot, then just reports status.
+      # rs.initiate has to run authenticated once --auth is on.
+      test: >
+        mongosh -u "$$MONGO_INITDB_ROOT_USERNAME" -p "$$MONGO_INITDB_ROOT_PASSWORD"
+        --authenticationDatabase admin --quiet --eval "
+          try { rs.status().ok }
+          catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongodb:27017'}]}).ok }
+        "
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+
+  # -------------------------------------------------------------------------
+  # redis — rate limiting and the advisory lock during booking holds
+  # -------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mongo_data:
+  mongo_keyfile:
+  redis_data:
+  uploads:

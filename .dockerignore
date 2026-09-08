@@ -1,0 +1,35 @@
+# Build context hygiene. Anything here is either rebuilt inside the image,
+# secret, or irrelevant to the build.
+
+node_modules
+.next
+out
+dist
+coverage
+test-results
+playwright-report
+
+.git
+.gitignore
+.github
+
+.env
+.env.local
+.env.*.local
+
+storage
+nginx/certs
+
+.claude
+.agents
+.impeccable
+skills-lock.json
+
+docs
+*.md
+!README.md
+
+.vscode
+.idea
+Thumbs.db
+.DS_Store

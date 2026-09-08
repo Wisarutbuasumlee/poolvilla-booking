@@ -55,3 +55,8 @@ Thumbs.db
 
 # impeccable runtime cache
 .impeccable/hook.cache.json
+
+# production compose env and certs
+.env.production
+nginx/certs/*
+!nginx/certs/.gitkeep

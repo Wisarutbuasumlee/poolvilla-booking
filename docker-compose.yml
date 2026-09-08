@@ -1,3 +1,6 @@
+# Development infrastructure only. The app runs on the host with npm run dev.
+name: poolvilla-dev
+
 # Infrastructure only. The Next.js app runs on the host with `npm run dev`.
 #
 # MongoDB runs as a SINGLE-NODE REPLICA SET, not a standalone. A standalone
