@@ -19,7 +19,8 @@
     "email": "邮箱",
     "password": "密码",
     "submit": "登录",
-    "failed": "邮箱或密码不正确"
+    "failed": "邮箱或密码不正确",
+    "throttled": "登录尝试过于频繁，请稍后再试。"
   },
   "villas": {
     "count": "共 {total} 栋",

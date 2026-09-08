@@ -15,6 +15,7 @@ import { getHolidaySet, getRateCard, villaCapacity, type VillaRateSource } from 
 import { asDateKey, quote, todayBangkok, type Promotion, type Satang } from '@/lib/pricing';
 import { notifyStaff } from '@/lib/notify';
 import { BookingRequestSchema } from '@/lib/validation/booking';
+import { clientIdentifier, rateLimit } from '@/lib/rate-limit';
 import { nextBookingNo } from './number';
 import { serialiseQuote, serialiseRateCard } from './snapshot';
 
@@ -43,6 +44,18 @@ export type BookingResult =
   | { ok: false; code: 'ERROR'; message: string };
 
 export async function createBookingAction(formData: FormData): Promise<BookingResult> {
+  // Ten in ten minutes is far more than any real guest needs and far less than
+  // a script would want. Without it one loop could hold every night on every
+  // villa for half an hour at a time.
+  const limit = await rateLimit('booking', await clientIdentifier(), 10, 600);
+  if (!limit.allowed) {
+    return {
+      ok: false,
+      code: 'ERROR',
+      message: `ทำรายการถี่เกินไป กรุณารออีก ${Math.ceil(limit.retryAfter / 60)} นาที`,
+    };
+  }
+
   await connectToDatabase();
 
   const parsed = BookingRequestSchema.safeParse(readForm(formData));

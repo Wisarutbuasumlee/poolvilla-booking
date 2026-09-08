@@ -6,6 +6,7 @@ import { connectToDatabase } from '@/lib/db/connect';
 import { BookingModel } from '@/lib/db/models/booking';
 import { contentKey, localStorage } from '@/lib/storage/local';
 import { notifyStaff } from '@/lib/notify';
+import { clientIdentifier, rateLimit } from '@/lib/rate-limit';
 
 /**
  * Uploading a payment slip.
@@ -27,6 +28,14 @@ const ACCEPTED = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/heic']
 export type SlipResult = { ok: true } | { ok: false; message: string };
 
 export async function uploadSlipAction(bookingNo: string, formData: FormData): Promise<SlipResult> {
+  // Each upload writes a re-encoded image to disk. Twenty in ten minutes
+  // covers a guest whose first few photographs came out unreadable, and stops
+  // a script filling the volume.
+  const limit = await rateLimit('slip', await clientIdentifier(), 20, 600);
+  if (!limit.allowed) {
+    return { ok: false, message: 'อัปโหลดถี่เกินไป กรุณารอสักครู่แล้วลองใหม่' };
+  }
+
   await connectToDatabase();
 
   const file = formData.get('slip');

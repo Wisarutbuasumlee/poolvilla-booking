@@ -179,9 +179,11 @@ schema อยู่ที่ `src/lib/db/models/` รายละเอียด
 - [x] **Phase 5** ระบบนายหน้า ref link พอร์ทัล ค่าคอม
 - [x] **Phase 6** dashboard รายงาน ปฏิทินรวม วันหยุด โปรโมชั่น
 - [x] **Phase 7** i18n ครบ dark mode SEO a11y responsive audit
-- [ ] **Phase 8** E2E, hardening, Dockerfile production, deployment guide
+- [x] **Phase 8** E2E, hardening, Dockerfile production, deployment guide
 
 ## 14. Known issues และข้อตัดสินใจ
+
+งานที่ต้องทำก่อนเปิดใช้จริงและเรื่องที่ยังค้าง อยู่ที่ `docs/HANDOVER.md`
 
 ดู `docs/DECISIONS.md` ประเด็นที่ยังค้างคือบทบาทของ `commissionRate` เมื่อรายได้หลักของนายหน้าคือส่วนบวกเพิ่ม จะยืนยันตอน Phase 5
 

@@ -19,7 +19,8 @@
     "email": "Email",
     "password": "Password",
     "submit": "Sign in",
-    "failed": "Email or password is incorrect"
+    "failed": "Email or password is incorrect",
+    "throttled": "Too many sign-in attempts. Please wait and try again."
   },
   "villas": {
     "count": "{total} villas",

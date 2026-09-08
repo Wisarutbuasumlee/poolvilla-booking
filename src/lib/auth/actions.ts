@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { signIn, signOut } from '@/auth';
 import { routing, type Locale } from '@/i18n/routing';
+import { clientIdentifier, rateLimit } from '@/lib/rate-limit';
 
 /**
  * Authentication actions.
@@ -38,6 +39,14 @@ function safeCallback(value: FormDataEntryValue | null, locale: Locale): string 
 export async function signInAction(formData: FormData): Promise<void> {
   const locale = localeOf(formData.get('locale'));
   const target = safeCallback(formData.get('callbackUrl'), locale);
+
+  // Ten attempts in fifteen minutes per address. The back office has a handful
+  // of accounts, so this costs a staff member who mistypes nothing and costs
+  // somebody working through a password list everything.
+  const limit = await rateLimit('signin', await clientIdentifier(), 10, 900);
+  if (!limit.allowed) {
+    redirect(`/${locale}/login?error=throttled`);
+  }
 
   try {
     await signIn('credentials', {
