@@ -26,7 +26,8 @@
     "docker:push": "docker push thaics/poolvilla-app:latest && docker push thaics/poolvilla-web:latest",
     "prod:up": "docker compose -f docker-compose.prod.yml up -d",
     "prod:down": "docker compose -f docker-compose.prod.yml down",
-    "prod:logs": "docker compose -f docker-compose.prod.yml logs -f --tail=100"
+    "prod:logs": "docker compose -f docker-compose.prod.yml logs -f --tail=100",
+    "db:check": "tsx scripts/db-check.ts"
   },
   "dependencies": {
     "@auth/core": "0.41.3",
